@@ -27,11 +27,15 @@ class Main
     public static void main(String[] args) {
         // Initialize heap array
         heap = new int[5];
+
+        // Print Welcome + Help
+        displayHelp();
         
         // Create Scanner Object
         Scanner scanner = new Scanner(System.in);
 
         // Run commands
+
 
         // Close Scanner Object
         scanner.close();
@@ -63,14 +67,10 @@ class Main
     }
 
     /**
-     * Prints each command in the commands array.
-     * Used for debugging.
+     * 
      */
-    private static void displayCommands() {
-        System.out.println("Printing commands...");
-        for(int i = 0; i < commands.length; i++) {
-            System.out.println("1: " + commands[i]);
-        }
+    private static void displayHelp() {
+
     }
 
     /**
