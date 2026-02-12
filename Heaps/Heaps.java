@@ -22,56 +22,19 @@ class Main
 
     // Global variables
     static int[] heap;
-    static int heapSize;
-    static String[] commands;
+    static int heapSize = 0;
 
     public static void main(String[] args) {
+        // Initialize heap array
+        heap = new int[5];
+        
         // Create Scanner Object
         Scanner scanner = new Scanner(System.in);
 
-        // Get input size
-        int inputSize = scanner.nextInt();
-
-        // Initialize heap array
-        heap = new int[inputSize + 1];
-        heapSize = inputSize;
-
-        // Fill heap
-        for(int i = 1; i < heap.length; i++) {
-            // Get next value
-            heap[i] = scanner.nextInt();
-        }
-
-        // Get number of commands
-        int commandsSize = scanner.nextInt();
-
-        // Create commands array
-        commands = new String[commandsSize];
-
-        // Fill commands array
-        scanner.nextLine();
-        for(int i = 0; i < commands.length; i++) {
-            // Get next command
-            commands[i] = scanner.nextLine();
-        }
+        // Run commands
 
         // Close Scanner Object
         scanner.close();
-
-        // Print whether input is heap or not
-        if(isHeap()) {
-            System.out.println("This is a heap.");
-        } else {
-            System.out.println("This is NOT a heap.");
-        }
-
-        // Sort heap
-        sortHeap();
-
-        // Run commands
-        for(int i = 0; i < commands.length; i++) {
-            runCommand(commands[i]);
-        }
     }
     
     /**
