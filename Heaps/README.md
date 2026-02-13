@@ -1,4 +1,4 @@
-#Heaps
+# Heaps
 This program was written while studying Heap data structures.
 It creates an array that represents a Max Heap, and allows the user to manipulate it through different commands.
 
