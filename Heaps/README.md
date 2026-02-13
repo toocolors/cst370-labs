@@ -7,7 +7,8 @@ The user can use the following commands:
 - display: Prints the heap.
 - displayMax: Prints the maximum value of the heap.
 - insert X: Attempts to insert integer X into the heap. Integers must be positive and cannot be repeats.
-- help: Prints program and command information.
+- help: Prints command information.
+- info: Prints program information
 - quit: Exits the program.
 
 A Max Heap array follows these conventions:
