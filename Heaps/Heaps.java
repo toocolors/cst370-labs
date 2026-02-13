@@ -162,6 +162,9 @@ class Main
 
         // Check if command is deleteMax, display, displayMax, or other
         switch(command) {
+            case "help":
+                displayHelp();
+                break;
             case "deleteMax":
                 deleteMax();
                 break;
