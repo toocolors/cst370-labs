@@ -35,7 +35,18 @@ class Main
         Scanner scanner = new Scanner(System.in);
 
         // Run commands
+        // Get First Command
+        System.out.print("Enter a command: ");
+        String command = scanner.nextLine();
+        // Loop until quit
+        while(!command.equals("quit")) {
+            // Run Command
+            runCommand(command);
 
+            // Get Next Command
+            System.out.print("Enter a command: ");
+            command = scanner.nextLine();
+        }
 
         // Close Scanner Object
         scanner.close();
