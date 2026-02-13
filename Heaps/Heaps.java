@@ -78,7 +78,7 @@ class Main
     }
 
     /**
-     * 
+     * Prints the description of each command.
      */
     private static void displayHelp() {
         System.out.println("List of Commands:");
