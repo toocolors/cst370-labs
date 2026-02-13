@@ -81,15 +81,6 @@ class Main
      * 
      */
     private static void displayHelp() {
-        // Introduction
-        System.out.println("This program lets the user display and manipulate\nan array representation of a max heap data structure.");
-        System.out.println("A max heap is a complete binary tree where the parent node is greater than their child nodes.");
-        System.out.println("An array representing a heap has the following characteristics:");
-        System.out.println("The left child of a node is at index 2i.");
-        System.out.println("The right child of a node is at index 2i + 1.");
-        System.out.println("The parent of a node is at index i/2.");
-
-        // Commands
         System.out.println("List of Commands:");
         System.out.println("deleteMax: Deletes the first node in the heap.");
         System.out.println("display: Prints the heap.");
@@ -104,6 +95,18 @@ class Main
      */
     private static void displayMax() {
         System.out.println(heap[1]);
+    }
+
+    /**
+     * Prints the abstract discription of the program.
+     */
+    private static void displayWelcome() {
+        System.out.println("This program lets the user display and manipulate\nan array representation of a max heap data structure.");
+        System.out.println("A max heap is a complete binary tree where the parent node is greater than their child nodes.");
+        System.out.println("An array representing a heap has the following characteristics:");
+        System.out.println("The left child of a node is at index 2i.");
+        System.out.println("The right child of a node is at index 2i + 1.");
+        System.out.println("The parent of a node is at index i/2.");
     }
 
     /**
