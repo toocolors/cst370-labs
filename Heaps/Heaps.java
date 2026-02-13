@@ -28,11 +28,19 @@ class Main
         // Initialize heap array
         heap = new int[5];
 
-        // Print Welcome + Help
-        displayHelp();
-        
         // Create Scanner Object
         Scanner scanner = new Scanner(System.in);
+
+        // Print Welcome
+        displayWelcome();
+
+        // Wait for user input (to avoid printing too much information all at once)
+        System.out.print("Press enter to continue... ");
+        scanner.nextLine();
+        System.out.println();
+        
+        // Print Help
+        displayHelp();
 
         // Run commands
         // Get First Command
