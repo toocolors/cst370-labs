@@ -1,18 +1,7 @@
 /*
- * INSTRUCTION:
- *     This is a Java staring code for hw5_1.
- *     When you finish the development, download this file and and submit to Canvas
- *     according to the submission instructions.
-
- *     Please DO NOT change the name of the main class "Main"
- */
-
-// Finish the head comment with Abstract, Name, and Date.
-/*
- * Abstract: Takes a series of number and sorts them into a heap, then takes
- *  extra operations to manipulate the heap.
+ * Abstract: Allows the user to manipulate an array representation of a Max Heap.
  * Name: Noah deFer
- * Date: 2/10/2026
+ * Date: 2/13/2026
  */
 import java.util.Scanner;
 import java.util.regex.Pattern;
