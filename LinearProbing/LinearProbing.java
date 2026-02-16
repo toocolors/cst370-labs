@@ -22,7 +22,17 @@ class Main
         // Create Scanner
         Scanner scanner = new Scanner(System.in);
 
-        
+        // Run Commands
+        // Get first command
+        String command = scanner.nextLine();
+        // Loop until quit
+        while(!command.equals("quit")) {
+            // Run command
+            runCommand(command);
+
+            // Get next command
+            command = scanner.nextLine();
+        }
 
         // Close Scanner
         scanner.close();
