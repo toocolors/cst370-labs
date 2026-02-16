@@ -13,14 +13,11 @@ class Main
     static String[] commands;
     static double maxLoad = 0.5;
     static int[] table;
-    static int tableSize;
+    static int tableSize = 5;
 
     public static void main(String[] args) {
         // Create Scanner
         Scanner scanner = new Scanner(System.in);
-
-        // Get initial table size
-        tableSize = scanner.nextInt();
 
         // Create hash table
         table = initializeArray(tableSize);
