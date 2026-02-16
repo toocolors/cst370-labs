@@ -80,9 +80,9 @@ class Main
 
         // Check status of index
         if(table[index] >= 0) {
-            System.out.println(table[index]);
+            System.out.println("Value at index " + index + ": " + table[index]);
         } else {
-            System.out.println("Empty");
+            System.out.println("Value at index " + index + " is empty.");
         }
     }
 
