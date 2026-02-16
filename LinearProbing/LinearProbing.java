@@ -247,8 +247,8 @@ class Main
         do {
             // Check if table[i] is num
             if(table[i] == num) {
-                found = true;
-                break;
+                System.out.println(num + " found at index " + i + ".");
+                return;
             }
             
             // Update i
@@ -259,12 +259,8 @@ class Main
             }
         } while(i != num % table.length);
 
-        // Print result
-        if(found) {
-            System.out.println(num + " Found");
-        } else {
-            System.out.println(num + " Not Found");
-        }
+        // Print result (not found)
+        System.out.println(num + "not found.");
     }
 }
 
