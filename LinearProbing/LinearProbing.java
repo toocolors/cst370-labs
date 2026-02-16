@@ -16,11 +16,13 @@ class Main
     static int tableSize = 5;
 
     public static void main(String[] args) {
+        // Create hash table
+        table = initializeArray(tableSize);
+        
         // Create Scanner
         Scanner scanner = new Scanner(System.in);
 
-        // Create hash table
-        table = initializeArray(tableSize);
+        
 
         // Close Scanner
         scanner.close();
