@@ -55,6 +55,13 @@ class Main
     }
 
     /**
+     * Displays command information.
+     */
+    private static void displayHelp() {
+
+    }
+
+    /**
      * Prints the value of an index, or empty if there is none.
      */
     private static void displayStatus(int index) {
@@ -201,6 +208,9 @@ class Main
 
         // Check if command is tableSize or unknown
         switch(command) {
+            case: "help":
+                displayHelp();
+                break;
             case: "getLoad":
                 System.out.println("Current Load Factor: " + getLoad());
                 break;
