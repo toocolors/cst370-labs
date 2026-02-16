@@ -184,6 +184,9 @@ class Main
 
         // Check if command is tableSize or unknown
         switch(command) {
+            case: "getMaxLoad":
+                System.out.println("Maximum Load Factor: " + maxLoad);
+                break;
             case "tableSize":
                 System.out.println(table.length);
                 break;
