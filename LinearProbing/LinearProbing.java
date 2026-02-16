@@ -22,25 +22,8 @@ class Main
         // Create hash table
         table = initializeArray(tableSize);
 
-        // Get number of commands
-        int commandsSize = scanner.nextInt();
-
-        // Create commands array
-        commands = new String[commandsSize];
-
-        // Fill commands array
-        scanner.nextLine();
-        for(int i = 0; i < commandsSize; i++) {
-            commands[i] = scanner.nextLine();
-        }
-
         // Close Scanner
         scanner.close();
-
-        // Run commands
-        for(int i = 0; i < commands.length; i++) {
-            runCommand(commands[i]);
-        }
     }
 
     /**
