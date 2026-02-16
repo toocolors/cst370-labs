@@ -62,6 +62,13 @@ class Main
     }
 
     /**
+     * Displays program information
+     */
+    private static void displayInfo() {
+
+    }
+
+    /**
      * Prints the value of an index, or empty if there is none.
      */
     private static void displayStatus(int index) {
@@ -208,14 +215,17 @@ class Main
 
         // Check if command is tableSize or unknown
         switch(command) {
-            case: "help":
+            case "help":
                 displayHelp();
                 break;
-            case: "getLoad":
+            case "getLoad":
                 System.out.println("Current Load Factor: " + getLoad());
                 break;
-            case: "getMaxLoad":
+            case "getMaxLoad":
                 System.out.println("Maximum Load Factor: " + maxLoad);
+                break;
+            case "info":
+                displayInfo();
                 break;
             case "tableSize":
                 System.out.println(table.length);
