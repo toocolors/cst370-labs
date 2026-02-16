@@ -182,6 +182,23 @@ class Main
             return;
         }
 
+        // Check if command is setMaxLoad X.X
+        if(Pattern.matches("^setMaxLoad [0-9]+.[0-9]+$", command)) {
+            double newMaxLoad = Double.parseDouble(command.substring(12));
+            // Check if newMaxLoad is within bounds
+            if(newMaxLoad <= 0.0 || 1.0 <= newMaxLoad) {
+                System.out.println("Load factor must be a double between 0.0 and 1.0.");
+            } else {
+                // Update maxLoad
+                maxLoad = newMaxLoad;
+                // Check if table needs to be resized
+                if(getLoad() > maxLoad) {
+                    resizeTable();
+                }
+            }
+            return;
+        }
+
         // Check if command is tableSize or unknown
         switch(command) {
             case: "getLoad":
