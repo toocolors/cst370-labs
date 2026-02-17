@@ -18,10 +18,12 @@ class Main
     // Booleans
     static boolean doInsertion;
     static boolean doMedian;
+    static boolean doSelection;
     static boolean doQuick;
     // Doubles
     static double insertionTime = -1.0;
     static double medianTime = -1.0;
+    static double selectionTime = -1.0;
     static double quickTime = -1.0;
     // Integers
     static int inputSize;
@@ -69,6 +71,22 @@ class Main
         // Initialize start variable
         Instant start;
 
+        // Run Insertion Sort
+        if(doInsertion) {
+            resetSorted();
+            start = Instant.now();
+            insertionSort();
+            insertionTime = Duration.between(start, Instant.now()).toNanos();
+        }
+
+        // Run Selection Sort
+        if(doSelection) {
+            resetSorted();
+            start = Instant.now();
+            selectionSort();
+            quickTime = Duration.between(start, Instant.now()).toNanos();
+        }
+
         // Run Quick Sort
         if(doQuick) {
             resetSorted();
@@ -76,7 +94,6 @@ class Main
             quickSort(0, inputSize - 1);
             quickTime = Duration.between(start, Instant.now()).toNanos();
         }
-        
 
         // Run Quick Sort (Median of Three)
         if(doMedian) {
@@ -84,14 +101,6 @@ class Main
             start = Instant.now();
             medianOfThree(0, inputSize - 1);
             medianTime = Duration.between(start, Instant.now()).toNanos();
-        }
-
-        // Run Insertion Sort
-        if(doInsertion) {
-            resetSorted();
-            start = Instant.now();
-            insertionSort();
-            insertionTime = Duration.between(start, Instant.now()).toNanos();
         }
         
         // Print numbers generated and sort Results
@@ -150,27 +159,31 @@ class Main
         if(scanner.next().trim().equals("y")) {
             doInsertion = true;
             doMedian = true;
+            doSelection = true;
             doQuick = true;
             return;
         }
 
         // Get Insertion Sort Boolean
         System.out.println("Run insertion sort (y/n)? ");
-        doInsertion = false;
         if(scanner.next().equals("y")) {
             doInsertion = true;
         }
 
+        // Get Selection Sort Boolean
+        System.out.println("Run selection sort (y/n)? ");
+        if(scanner.next().equals("y")) {
+            doSelection = true;
+        }
+
         // Get Quick Sort Boolean
         System.out.println("Run quick sort (y/n)? ");
-        doQuick = false;
         if(scanner.next().equals("y")) {
             doQuick = true;
         }
 
         // Get Median of Three Boolean
         System.out.println("Run quick sort with Median of Three (y/n)? ");
-        doMedian = false;
         if(scanner.next().equals("y")) {
             doMedian = true;
         }
@@ -383,6 +396,13 @@ class Main
      */
     private static void resetSorted() {
         sortedArray = unsortedArray.clone();
+    }
+
+    /**
+     * Sorts the sortedArray using the Selection Sort algorithm.
+     */
+    private static void selectionSort() {
+
     }
 
     /**
