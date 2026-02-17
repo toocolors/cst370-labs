@@ -24,14 +24,18 @@ class Main
 
         // Run Commands
         // Get first command
+        System.out.print("Enter command: ");
         String command = scanner.nextLine();
+        command = command.trim();
         // Loop until quit
         while(!command.equals("quit")) {
             // Run command
             runCommand(command);
 
             // Get next command
+            System.out.print("Enter command: ");
             command = scanner.nextLine();
+            command = command.trim();
         }
 
         // Close Scanner
