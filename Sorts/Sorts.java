@@ -38,20 +38,8 @@ class Main
         System.out.println("Choose option:");
         int inputType = scanner.nextInt();
 
-        // Get Insertion Sort Boolean
-        System.out.println("Run insertion sort(y/n)? ");
-        doInsertion = false;
-        if(scanner.next().equals("y")) {
-            doInsertion = true;
-        }
-        
-
-        // Get Median of Three Boolean
-        System.out.println("Run quick sort with Median of Three(y/n)? ");
-        doMedian = false;
-        if(scanner.next().equals("y")) {
-            doMedian = true;
-        }
+        // Get which algorithms to run
+        getAlgoBooleans(scanner);
 
         // Close Scanner
         scanner.close();
@@ -149,6 +137,41 @@ class Main
         Random r = new Random();
         for(int i = 0; i < inputSize; i++) {
             unsortedArray[i] = r.nextInt(inputSize*10 + 1);
+        }
+    }
+
+    /**
+     * Asks the user which algorithms they would like to run and updated the do___ booleans.
+     */
+    private static void getAlgoBooleans(Scanner scanner) {
+        // Ask if all algorithms will be ran
+        System.out.println("Run all sorting algorithms (y/n)?");
+        if(scanner.next().trim().equals("y")) {
+            doInsertion = true;
+            doMedian = true;
+            doQuick = true;
+            return;
+        }
+
+        // Get Insertion Sort Boolean
+        System.out.println("Run insertion sort (y/n)? ");
+        doInsertion = false;
+        if(scanner.next().equals("y")) {
+            doInsertion = true;
+        }
+
+        // Get Quick Sort Boolean
+        System.out.println("Run quick sort (y/n)? ");
+        doQuick = false;
+        if(scanner.next().equals("y")) {
+            doQuick = true;
+        }
+
+        // Get Median of Three Boolean
+        System.out.println("Run quick sort with Median of Three (y/n)? ");
+        doMedian = false;
+        if(scanner.next().equals("y")) {
+            doMedian = true;
         }
     }
 
