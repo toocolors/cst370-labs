@@ -27,3 +27,6 @@ A Hash Table is an array that uses hashing to assign indexes to elements.
 This program uses a simple modulo operation to assign indexes.
 If two elements would have the same index, the table uses Linear Probing to assign the index of the second element.
 Linear Probing, or Open Addressing, is where the program searches for the first available index starting at the hash result.
+
+# Sorts
+Generates an array based on user input, sorts the array using multiple algorithms, then displays the time spent on each sort algorithm.

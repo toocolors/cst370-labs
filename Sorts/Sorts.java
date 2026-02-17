@@ -1,5 +1,5 @@
 /*
- * Abstract: Generates a array based on user input, sorts the array using multiple algorithms, then displays the time spent on each sort algorithm.
+ * Abstract: Generates an array based on user input, sorts the array using multiple algorithms, then displays the time spent on each sort algorithm.
  * Name: Noah deFer
  * Date: 2/17/2026
  */
