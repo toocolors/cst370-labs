@@ -12,8 +12,6 @@ import java.util.Scanner;
 class Main 
 {
     // Global Variables
-    static int inputSize;
-    
     // Arrays
     static int[] unsortedArray;
     static int[] sortedArray;
@@ -21,6 +19,12 @@ class Main
     static boolean doInsertion;
     static boolean doMedian;
     static boolean doQuick;
+    // Doubles
+    static double insertionTime = -1.0;
+    static double medianTime = -1.0;
+    static double quickTime = -1.0;
+    // Integers
+    static int inputSize;
 
     public static void main(String[] args) {
         // Create Scanner Object
@@ -66,7 +70,6 @@ class Main
         Instant start;
 
         // Run Quick Sort
-        double quickTime = -1.0;
         if(doQuick) {
             resetSorted();
             start = Instant.now();
@@ -76,7 +79,6 @@ class Main
         
 
         // Run Quick Sort (Median of Three)
-        double medianTime = -1.0;
         if(doMedian) {
             resetSorted();
             start = Instant.now();
@@ -85,7 +87,6 @@ class Main
         }
 
         // Run Insertion Sort
-        double insertionTime = -1.0;
         if(doInsertion) {
             resetSorted();
             start = Instant.now();
@@ -101,12 +102,12 @@ class Main
 
         // Print Times
         System.out.println("==================== Execution Result ====================");
-        ArrayList<Integer> ranks = printTimes(quickTime, medianTime, insertionTime);
+        ArrayList<Integer> ranks = printTimes();
         System.out.println("==========================================================");
         
         // Print Ranking
         System.out.println("\n========================= Ranking ========================");
-        printRanking(quickTime, medianTime, insertionTime, ranks);
+        printRanking(ranks);
         System.out.println("==========================================================");
     }
 
@@ -295,11 +296,7 @@ class Main
      * 2 = Quick Sort (Median of Three)
      * 3 = Insertion Sort
      */
-    private static void printRanking(
-        double quickTime, 
-        double medianTime, 
-        double insertionTime, 
-        ArrayList<Integer> ranks) {
+    private static void printRanking(ArrayList<Integer> ranks) {
         for(int i = 0; i < ranks.size(); i++) {
             // Print rank number
             System.out.print("(" + (i + 1) + ") ");
@@ -346,10 +343,7 @@ class Main
     /**
      * Prints the times of the different sorts, sorted by time.
      */
-    private static ArrayList<Integer> printTimes(
-        double quickTime, 
-        double medianTime, 
-        double insertionTime) {
+    private static ArrayList<Integer> printTimes() {
         // Create ArrayList
         ArrayList<Integer> ranks = new ArrayList<Integer>(3);
         
