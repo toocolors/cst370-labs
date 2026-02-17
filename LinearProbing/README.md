@@ -17,5 +17,3 @@ tableSize: Prints the current table size.
 info: Print program information.
 help: Print command information.
 quit: Exit the program.
-
-# Separate Chaining
