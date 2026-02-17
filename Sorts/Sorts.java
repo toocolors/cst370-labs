@@ -84,7 +84,7 @@ class Main
             resetSorted();
             start = Instant.now();
             selectionSort();
-            quickTime = Duration.between(start, Instant.now()).toNanos();
+            selectionTime = Duration.between(start, Instant.now()).toNanos();
         }
 
         // Run Quick Sort
@@ -308,6 +308,7 @@ class Main
      * 1 = Quick Sort
      * 2 = Quick Sort (Median of Three)
      * 3 = Insertion Sort
+     * 4 = Selection
      */
     private static void printRanking(ArrayList<Integer> ranks) {
         for(int i = 0; i < ranks.size(); i++) {
@@ -315,15 +316,31 @@ class Main
             System.out.print("(" + (i + 1) + ") ");
 
             // Print sort method and zero time variable
-            if(ranks.get(i) == 1) {
-                System.out.println("Quick sort");
-            } else if(ranks.get(i) == 2) {
-                medianTime = 0;
-                System.out.println("Quick sort (Median of Three)");
-            } else {
-                insertionTime = 0;
-                System.out.println("Insertion sort");
+            switch(ranks.get(i)) {
+                case 1:
+                    System.out.println("Quick sort");
+                    break;
+                case 2:
+                    System.out.println("Quick sort (Median of Three)");
+                    break;
+                case 3:
+                    System.out.println("Insertion sort");
+                    break;
+                case 4:
+                    System.out.println("Selection sort");
+                    break;
+                default:
+                    break;
             }
+            // if(ranks.get(i) == 1) {
+            //     System.out.println("Quick sort");
+            // } else if(ranks.get(i) == 2) {
+            //     medianTime = 0;
+            //     System.out.println("Quick sort (Median of Three)");
+            // } else {
+            //     insertionTime = 0;
+            //     System.out.println("Insertion sort");
+            // }
         }
     }
 
@@ -361,9 +378,11 @@ class Main
         ArrayList<Integer> ranks = new ArrayList<Integer>(3);
         
         // Check if all times have been processed or are 0
-        while(quickTime != -1.0 || medianTime != -1.0 || insertionTime != -1.0) {
+        while(quickTime != -1.0 || medianTime != -1.0 || insertionTime != -1.0 || selectionTime != -1.0) {
             // Get max
-            double max = Math.max(Math.max(quickTime, medianTime), Math.max(medianTime, insertionTime));
+            double max = Math.max(quickTime, medianTime);
+            max = Math.max(max, insertionTime);
+            max = Math.max(max, selectionTime);
 
             // Print sort method and zero time variable
             if(max == quickTime) {
@@ -374,10 +393,14 @@ class Main
                 medianTime = -1.0;
                 System.out.print("Quick sort (Median of Three): ");
                 ranks.add(0, 2);
-            } else {
+            } else if(max == insertionTime){
                 insertionTime = -1.0;
                 System.out.print("Insertion sort: ");
                 ranks.add(0, 3);
+            } else {
+                selectionTime = -1.0;
+                System.out.print("Selection sort: ");
+                ranks.add(0, 4);
             }
 
             // Print time
