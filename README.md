@@ -2,6 +2,11 @@
 This repository is a collection of labs I created during my algorithms class.
 Each lab has its own folder and README. The program descriptions are also detailed in this file.
 
+# CoinCollection
+In the Coin Collection problem, we have a board of x by y cells. Each cell can contain 0 or 1 coins. We also have a robot that starts at cell (1, 1), can only move right or down, and must reach the bottom-right cell with the largest amount of coins possible.
+
+This program takes board data from either the user or a file, and calculates the optimal path for the robot to take.
+
 # Heaps
 This program was written while studying Heap data structures.
 It creates an array that represents a Max Heap, and allows the user to manipulate it through different commands.
