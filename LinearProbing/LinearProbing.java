@@ -74,7 +74,11 @@ class Main
      * Displays program information
      */
     private static void displayInfo() {
-
+        System.out.println("This program allows the user to manipulate a Hash Table.");
+        System.out.println("A Hash Table is an array that\nuses hashing to assign indexes to elements.");
+        System.out.println("This program uses a simple modulo operation to assign indexes.");
+        System.out.println("If two elements would have the same index,\nthe table uses Linear Probing to assign the index of the second element.");
+        System.out.println("Linear Probing, or Open Addressing, is where\nthe program searches for the first available index starting at the hash result.");
     }
 
     /**
