@@ -118,8 +118,14 @@ class Main
     /**
      * Prints the values of each table index.
      */
-    private void static displayTable() {
-
+    private static void displayTable() {
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] >= 0) {
+                System.out.println(i + ": " + table[i]);
+            } else {
+                System.out.println(i + ": Empty");
+            }
+        }
     }
 
     /**
