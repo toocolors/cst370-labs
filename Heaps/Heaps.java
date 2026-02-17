@@ -82,7 +82,7 @@ class Main
         System.out.println("deleteMax: Deletes the first node in the heap.");
         System.out.println("display: Prints the heap.");
         System.out.println("displayMax: Prints the maximum value of the heap.");
-        System.out.println("insert X: Attempts to insert integer X into the heap. Integers must be positive and cannot be repeats.");
+        System.out.println("insert X: Attempts to insert integer X into the heap.");
         System.out.println("help: Prints command information.");
         System.out.println("help: Prints program information.");
         System.out.println("quit: Exits the program.");
