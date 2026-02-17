@@ -74,6 +74,7 @@ class Main
      */
     private static void displayHelp() {
         System.out.println("displayStatus X: Print the value of index X.");
+        System.out.println("displayTable: Prints the values of each table index.");
         System.out.println("getLoad: Prints the current Load Factor.");
         System.out.println("getMaxLoad: Prints the current Maximum Load Factor.");
         System.out.println("insert X: Inserts integer X into the hash table.");
@@ -112,6 +113,13 @@ class Main
         } else {
             System.out.println("Value at index " + index + " is empty.");
         }
+    }
+
+    /**
+     * Prints the values of each table index.
+     */
+    private void static displayTable() {
+
     }
 
     /**
@@ -255,6 +263,9 @@ class Main
 
         // Check if command is tableSize or unknown
         switch(command) {
+            case "displayTable":
+                displayTable();
+                break;
             case "help":
                 displayHelp();
                 break;

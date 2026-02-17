@@ -6,7 +6,8 @@ If two elements would have the same index, the table uses Linear Probing to assi
 Linear Probing, or Open Addressing, is where the program searches for the first available index starting at the hash result.
 
 Commands:
-displayStatus X: Print the value of index X.
+displayStatus X: Prints the value of index X.
+displayTable: Prints the values of each table index.
 getLoad: Prints the current Load Factor.
 getMaxLoad: Prints the current Maximum Load Factor.
 insert X: Inserts integer X into the hash table.
