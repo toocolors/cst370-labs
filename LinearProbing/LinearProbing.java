@@ -58,7 +58,16 @@ class Main
      * Displays command information.
      */
     private static void displayHelp() {
-
+        System.out.println("displayStatus X: Print the value of index X.");
+        System.out.println("getLoad: Prints the current Load Factor.");
+        System.out.println("getMaxLoad: Prints the current Maximum Load Factor.");
+        System.out.println("insert X: Inserts integer X into the hash table.");
+        System.out.println("newMaxLoad X: Sets the Maximum Load Factor to X.");
+        System.out.println("search X: Search for the location of element X in the hash table.");
+        System.out.println("tableSize: Prints the current table size.");
+        System.out.println("info: Print program information.");
+        System.out.println("help: Print command information.");
+        System.out.println("quit: Exit the program.");
     }
 
     /**
