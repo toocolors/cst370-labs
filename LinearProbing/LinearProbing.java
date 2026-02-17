@@ -22,6 +22,17 @@ class Main
         // Create Scanner
         Scanner scanner = new Scanner(System.in);
 
+        // Print program information
+        displayInfo();
+
+        // Wait for input
+        System.out.print("Press enter to continue...");
+        scanner.nextLine();
+
+        // Print program commands
+        System.out.println();
+        displayHelp();
+
         // Run Commands
         // Get first command
         System.out.print("Enter command: ");
