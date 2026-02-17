@@ -397,8 +397,6 @@ class Main
             // Print time
             double millis = max / 1000000.0;
             System.out.println(millis + " milliseconds");
-
-            
         }
 
         // Return Ranks
@@ -416,7 +414,20 @@ class Main
      * Sorts the sortedArray using the Selection Sort algorithm.
      */
     private static void selectionSort() {
+        for(int i = 0; i < sortedArray.length; i++) {
+            // Get smallest element in array
+            int minIndex = i;
+            for(int j = i + 1; j < sortedArray.length; j++) {
+                if(sortedArray[j] < sortedArray[minIndex]) {
+                    minIndex = j;
+                }
+            }
 
+            // Swap elements
+            int temp = unsortedArray[i];
+            sortedArray[i] = sortedArray[minIndex];
+            sortedArray[minIndex] = temp;
+        }
     }
 
     /**
