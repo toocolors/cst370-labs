@@ -7,6 +7,11 @@ In the Coin Collection problem, we have a board of x by y cells. Each cell can c
 
 This program takes board data from either the user or a file, and calculates the optimal path for the robot to take.
 
+# Floyd-Warshall
+The Floyd-Warshall Algorithm, sometimes called Floyd's Algorithm, calculates the shortest paths between all nodes in the graph, including indirect paths.
+
+This program gets graph information from the user or a file, then uses the Floyd-Warshall Algorithm to calculate all shortest-paths, then prints the result.
+
 # Heaps
 This program was written while studying Heap data structures.
 It creates an array that represents a Max Heap, and allows the user to manipulate it through different commands.
