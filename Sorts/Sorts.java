@@ -332,15 +332,6 @@ class Main
                 default:
                     break;
             }
-            // if(ranks.get(i) == 1) {
-            //     System.out.println("Quick sort");
-            // } else if(ranks.get(i) == 2) {
-            //     medianTime = 0;
-            //     System.out.println("Quick sort (Median of Three)");
-            // } else {
-            //     insertionTime = 0;
-            //     System.out.println("Insertion sort");
-            // }
         }
     }
 
