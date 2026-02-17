@@ -13,13 +13,14 @@ class Main
 {
     // Global Variables
     static int inputSize;
-    static boolean doInsertion;
-    static boolean doMedian;
+    
     // Arrays
     static int[] unsortedArray;
-    static int[] quickArray;
-    static int[] medianArray;
-    static int[] insertionArray;
+    static int[] sortedArray;
+    // Booleans
+    static boolean doInsertion;
+    static boolean doMedian;
+    static boolean doQuick;
 
     public static void main(String[] args) {
         // Create Scanner Object
@@ -60,9 +61,6 @@ class Main
         // 2 = Descending Order
         // 3 = Random Order
         unsortedArray = new int[inputSize];
-        quickArray = new int[inputSize];
-        medianArray = new int[inputSize];
-        insertionArray = new int[inputSize];
         switch(inputType) {
             case 1:
                 generateAscending();
@@ -81,13 +79,18 @@ class Main
 
         // Run Quick Sort
         double quickTime = -1.0;
-        start = Instant.now();
-        quickSort(0, inputSize - 1);
-        quickTime = Duration.between(start, Instant.now()).toNanos();
+        if(doQuick) {
+            resetSorted();
+            start = Instant.now();
+            quickSort(0, inputSize - 1);
+            quickTime = Duration.between(start, Instant.now()).toNanos();
+        }
+        
 
         // Run Quick Sort (Median of Three)
         double medianTime = -1.0;
         if(doMedian) {
+            resetSorted();
             start = Instant.now();
             medianOfThree(0, inputSize - 1);
             medianTime = Duration.between(start, Instant.now()).toNanos();
@@ -96,6 +99,7 @@ class Main
         // Run Insertion Sort
         double insertionTime = -1.0;
         if(doInsertion) {
+            resetSorted();
             start = Instant.now();
             insertionSort();
             insertionTime = Duration.between(start, Instant.now()).toNanos();
@@ -124,9 +128,6 @@ class Main
     private static void generateAscending() {
         for(int i = 0; i < inputSize; i++) {
             unsortedArray[i] = i + 1;
-            quickArray[i] = i + 1;
-            medianArray[i] = i + 1;
-            insertionArray[i] = i + 1;
         }
     }
 
@@ -137,9 +138,6 @@ class Main
         int num = inputSize;
         for(int i = 0; i < inputSize; i++) {
             unsortedArray[i] = num;
-            quickArray[i] = num;
-            medianArray[i] = num;
-            insertionArray[i] = num;
             num--;
         }
     }
@@ -150,35 +148,31 @@ class Main
     private static void generateRandom() {
         Random r = new Random();
         for(int i = 0; i < inputSize; i++) {
-            int rand = r.nextInt(inputSize*10 + 1);
-            unsortedArray[i] = rand;
-            quickArray[i] = rand;
-            medianArray[i] = rand;
-            insertionArray[i] = rand;
+            unsortedArray[i] = r.nextInt(inputSize*10 + 1);
         }
     }
 
     /**
-     * Sorts insertionArray using the Insertion Sort algorithm.
+     * Sorts sortedArray using the Insertion Sort algorithm.
      */
     private static void insertionSort() {
         for(int i = 1; i < inputSize; i++) {
-            int key = insertionArray[i];
+            int key = sortedArray[i];
             int j = i - 1;
-            while(j >= 0 && insertionArray[j] > key) {
-                insertionArray[j + 1] = insertionArray[j];
+            while(j >= 0 && sortedArray[j] > key) {
+                sortedArray[j + 1] = sortedArray[j];
                 j--;
             }
-            insertionArray[j + 1] = key;
+            sortedArray[j + 1] = key;
         }
     }
 
     /**
-     * Sorts medianArray using the Quick Sort (Median of Three) algorithm.
+     * Sorts sortedArray using the Quick Sort (Median of Three) algorithm.
      */
     private static void medianOfThree(int start, int end) {
         //System.out.println("\nQuick Sort from " + start + " to " + end);
-        //printSubArray(medianArray, start, end);
+        //printSubArray(sortedArray, start, end);
         // Check if array partition is empty or only one element
         if(end - start <= 0) {
             return;
@@ -187,30 +181,30 @@ class Main
         // Sort first, median, last
         int temp;
         int middleIndex = (start + end) / 2;
-        if(medianArray[start] > medianArray[middleIndex]) {
-            temp = medianArray[start];
-            medianArray[start] = medianArray[middleIndex];
-            medianArray[middleIndex] = temp;
+        if(sortedArray[start] > sortedArray[middleIndex]) {
+            temp = sortedArray[start];
+            sortedArray[start] = sortedArray[middleIndex];
+            sortedArray[middleIndex] = temp;
         }
-        if(medianArray[middleIndex] > medianArray[end]) {
-            temp = medianArray[middleIndex];
-            medianArray[middleIndex] = medianArray[end];
-            medianArray[end] = temp;
+        if(sortedArray[middleIndex] > sortedArray[end]) {
+            temp = sortedArray[middleIndex];
+            sortedArray[middleIndex] = sortedArray[end];
+            sortedArray[end] = temp;
         }
-        if(medianArray[start] > medianArray[middleIndex]) {
-            temp = medianArray[start];
-            medianArray[start] = medianArray[middleIndex];
-            medianArray[middleIndex] = temp;
+        if(sortedArray[start] > sortedArray[middleIndex]) {
+            temp = sortedArray[start];
+            sortedArray[start] = sortedArray[middleIndex];
+            sortedArray[middleIndex] = temp;
         }
 
         // Swap median with second element
-        temp = medianArray[middleIndex];
-        medianArray[middleIndex] = medianArray[start + 1];
-        medianArray[start + 1] = temp;
+        temp = sortedArray[middleIndex];
+        sortedArray[middleIndex] = sortedArray[start + 1];
+        sortedArray[start + 1] = temp;
         
         // Set pivot (index of pivot)
         int pivot = start + 1;
-        //System.out.println("Pivot: " + medianArray[pivot]);
+        //System.out.println("Pivot: " + sortedArray[pivot]);
 
         // initialize i and j
         int i = start + 1;
@@ -219,20 +213,20 @@ class Main
         // Increment i until i reaches the end of partition or until i and j meet
         while(i <= end && i < j) {
             i++;
-            //System.out.println("i -> [" + i + "] -> " + medianArray[i]);
+            //System.out.println("i -> [" + i + "] -> " + sortedArray[i]);
             // Check if element i is greater than or equal to the pivot.
-            if(medianArray[i] >= medianArray[pivot]) {
+            if(sortedArray[i] >= sortedArray[pivot]) {
                 // Decrement j
                 //System.out.println("i is greater than pivot");
                 while(j >= start && j > i) {
-                    //System.out.println("j -> [" + j + "] -> " + medianArray[j]);
+                    //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
                     // Check if element j is less than or equal to the pivot.
-                    if(medianArray[j] <= medianArray[pivot]) {
+                    if(sortedArray[j] <= sortedArray[pivot]) {
                         //System.out.println("j is smaller than pivot\nSwapping i and j");
                         // Swap element i and j
-                        temp = medianArray[j];
-                        medianArray[j] = medianArray[i];
-                        medianArray[i] = temp;
+                        temp = sortedArray[j];
+                        sortedArray[j] = sortedArray[i];
+                        sortedArray[i] = temp;
                         break;
                     }
                     j--;
@@ -242,18 +236,18 @@ class Main
         //System.out.println("i and j have met");
 
         // Decrement j until it reaches an element smaller than the pivot or it reaches the pivot 
-        while(medianArray[j] >= medianArray[pivot] && j > pivot) {
-            //System.out.println("j -> [" + j + "] -> " + medianArray[j]);
+        while(sortedArray[j] >= sortedArray[pivot] && j > pivot) {
+            //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
             j--;
         }
 
         // Swap the pivot and element j
         //System.out.println("Swapping j and pivot");
-        temp = medianArray[pivot];
-        medianArray[pivot] = medianArray[j];
-        medianArray[j] = temp;
+        temp = sortedArray[pivot];
+        sortedArray[pivot] = sortedArray[j];
+        sortedArray[j] = temp;
 
-        //printSubArray(medianArray, start, end);
+        //printSubArray(sortedArray, start, end);
 
         // Divide array and call self
         medianOfThree(start, j - 1);
@@ -309,24 +303,10 @@ class Main
         printArray(unsortedArray);
         System.out.println();
 
-        // Quick Sort Array
-        System.out.print("Quick sort result: ");
-        printArray(quickArray);
+        // Sorted Array
+        System.out.print("Sort results: ");
+        printArray(sortedArray);
         System.out.println();
-
-        // Median of Three Array
-        if(doMedian) {
-            System.out.print("Quick sort (Median of Three) result: ");
-            printArray(medianArray);
-            System.out.println();
-        }
-
-        // Insertion Array
-        if(doInsertion) {
-            System.out.print("Insertion sort result: ");
-            printArray(insertionArray);
-            System.out.println();
-        }
     }
 
     /**
@@ -382,11 +362,18 @@ class Main
     }
 
     /**
-     * Sorts the quickArray using the Quick Sort algorithm.
+     * Resets the sorted array back to being unsorted.
+     */
+    private static void resetSorted() {
+        sortedArray = unsortedArray.clone();
+    }
+
+    /**
+     * Sorts the sortedArray using the Quick Sort algorithm.
      */
     private static void quickSort(int start, int end) {
         //System.out.println("\nQuick Sort from " + start + " to " + end);
-        //printSubArray(quickArray, start, end);
+        //printSubArray(sortedArray, start, end);
         // Check if array partition is empty or only one element
         if(end - start <= 0) {
             return;
@@ -394,7 +381,7 @@ class Main
         
         // Set pivot (index of pivot)
         int pivot = start;
-        //System.out.println("Pivot: " + quickArray[pivot]);
+        //System.out.println("Pivot: " + sortedArray[pivot]);
 
         // initialize i and j
         int i = start;
@@ -403,20 +390,20 @@ class Main
         // Increment i until i reaches the end of partition or until i and j meet
         while(i <= end && i < j) {
             i++;
-            //System.out.println("i -> [" + i + "] -> " + quickArray[i]);
+            //System.out.println("i -> [" + i + "] -> " + sortedArray[i]);
             // Check if element i is greater than or equal to the pivot.
-            if(quickArray[i] >= quickArray[pivot]) {
+            if(sortedArray[i] >= sortedArray[pivot]) {
                 // Decrement j
                 //System.out.println("i is greater than pivot");
                 while(j >= start && j > i) {
-                    //System.out.println("j -> [" + j + "] -> " + quickArray[j]);
+                    //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
                     // Check if element j is less than or equal to the pivot.
-                    if(quickArray[j] <= quickArray[pivot]) {
+                    if(sortedArray[j] <= sortedArray[pivot]) {
                         //System.out.println("j is smaller than pivot\nSwapping i and j");
                         // Swap element i and j
-                        int temp = quickArray[j];
-                        quickArray[j] = quickArray[i];
-                        quickArray[i] = temp;
+                        int temp = sortedArray[j];
+                        sortedArray[j] = sortedArray[i];
+                        sortedArray[i] = temp;
                         break;
                     }
                     j--;
@@ -426,18 +413,18 @@ class Main
         //System.out.println("i and j have met");
 
         // Decrement j until it reaches an element smaller than the pivot or it reaches the pivot 
-        while(quickArray[j] >= quickArray[pivot] && j > pivot) {
-            //System.out.println("j -> [" + j + "] -> " + quickArray[j]);
+        while(sortedArray[j] >= sortedArray[pivot] && j > pivot) {
+            //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
             j--;
         }
 
         // Swap the pivot and element j
         //System.out.println("Swapping j and pivot");
-        int temp = quickArray[pivot];
-        quickArray[pivot] = quickArray[j];
-        quickArray[j] = temp;
+        int temp = sortedArray[pivot];
+        sortedArray[pivot] = sortedArray[j];
+        sortedArray[j] = temp;
 
-        //printSubArray(quickArray, start, end);
+        //printSubArray(sortedArray, start, end);
 
         // Divide array and call self
         quickSort(start, j - 1);
