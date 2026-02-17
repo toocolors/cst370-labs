@@ -180,13 +180,25 @@ class Main
     private static void runCommand(String command) {
         // Check if command is insert X
         if(Pattern.matches("^insert [0-9]+$", command)) {
-            insert(Integer.parseInt(command.substring(7)));
+            int num = Integer.parseInt(command.substring(7));
+            // Check if X is within range
+            if(num < 0) {
+                System.out.println("Number should be an integer equal to or greater than 0.");
+            } else {
+                insert(num);
+            }
             return;
         }
 
         // Check if command is search X
         if(Pattern.matches("^search [0-9]+$", command)) {
-            search(Integer.parseInt(command.substring(7)));
+            int num = Integer.parseInt(command.substring(7));
+            // Check if X is within range
+            if(num < 0) {
+                System.out.println("Number should be an integer equal to or greater than 0.");
+            } else {
+                search(num);
+            }
             return;
         }
 
