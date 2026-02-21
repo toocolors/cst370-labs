@@ -400,21 +400,6 @@ class Main
     }
 
     /**
-     * Prints the contents of each array.
-     */
-    private static void printSorts() {
-        // Unsorted Array
-        System.out.print("Numbers generated: ");
-        printArray(unsortedArray);
-        System.out.println();
-
-        // Sorted Array
-        System.out.print("Sort results: ");
-        printArray(sortedArray);
-        System.out.println();
-    }
-
-    /**
      * Prints a subarray of arr from start to end
      * Used for debugging.
      */
