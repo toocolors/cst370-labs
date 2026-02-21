@@ -8,12 +8,41 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+/**
+ * Used to store function for the associated algorithm.
+ */
+@FunctionalInterface
+interface AlgorithmFunction {
+    void sort();
+}
+
+/**
+ * Used to store algorithm information.
+ */
+class Algorithm {
+    // Fields
+    String name;
+    boolean run;
+    long runtime;
+    AlgorithmFunction sort;
+
+    // Constructor
+    public Algorithm(String name, AlgorithmFunction sort) {
+        this.name = name;
+        run = false;
+        runtime = -1;
+        this.sort = sort;
+    }
+}
  
 class Main 
 {
     // ***************************************************************
     // GLOBAL VARIABLES
     // ***************************************************************
+    // Integers
+    static int inputSize;
     // Arrays
     static int[] unsortedArray;
     static int[] sortedArray;
@@ -27,8 +56,6 @@ class Main
     static double medianTime = -1.0;
     static double selectionTime = -1.0;
     static double quickTime = -1.0;
-    // Integers
-    static int inputSize;
 
     // ***************************************************************
     // MAIN FUNCTION
