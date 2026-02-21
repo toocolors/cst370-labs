@@ -11,7 +11,9 @@ import java.util.Scanner;
  
 class Main 
 {
-    // Global Variables
+    // ***************************************************************
+    // GLOBAL VARIABLES
+    // ***************************************************************
     // Arrays
     static int[] unsortedArray;
     static int[] sortedArray;
@@ -28,6 +30,9 @@ class Main
     // Integers
     static int inputSize;
 
+    // ***************************************************************
+    // MAIN FUNCTION
+    // ***************************************************************
     public static void main(String[] args) {
         // Create Scanner Object
         Scanner scanner = new Scanner(System.in);
