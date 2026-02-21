@@ -30,3 +30,11 @@ Linear Probing, or Open Addressing, is where the program searches for the first 
 
 # Sorts
 Generates an array based on user input, sorts the array using multiple algorithms, then displays the time spent on each sort algorithm.
+
+Currently supported sorting algorithms:
+1. Bubble Sort
+2. Insertion Sort
+3. Radix Sort
+4. Selection Sort
+5. Quick Sort
+6. Quick Sort (Median of Three)
