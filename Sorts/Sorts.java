@@ -442,19 +442,23 @@ class Main
      * Runs the passed in algorithm
      */
     private static void runAlgorithm(Algorithm algo) {
-        // Reset sorted array
-        resetSorted();
+        // Try to run algorithm
+        try {
+            // Reset sorted array
+            resetSorted();
 
-        // Initalize instant and get current time
-        Instant start;
-        start = Instant.now();
+            // Initalize instant and get current time
+            Instant start;
+            start = Instant.now();
 
-        // Run algorithm
-        algo.sort.sort();
+            // Run algorithm
+            algo.sort.sort();
 
-        // Get end time
-        algo.runtime = Duration.between(start, Instant.now()).toNanos();
-
+            // Get end time
+            algo.runtime = Duration.between(start, Instant.now()).toNanos();
+        } catch(StackOverflowError e) {
+            System.out.println("Could not run " + algo.name + ". Array size is too long.");
+        }
     }
 
     /**
