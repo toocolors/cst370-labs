@@ -37,6 +37,8 @@ class Main
     // ***************************************************************
     // GLOBAL VARIABLES
     // ***************************************************************
+    // Booleans
+    static boolean printArrays;
     // Integers
     static int inputSize;
     // Arrays
@@ -60,6 +62,14 @@ class Main
         // Get Input Size
         System.out.println("Enter input size: ");
         inputSize = scanner.nextInt();
+
+        // Update printArrays if inputSize <= 20
+        if(inputSize <= 20) {
+            System.out.println("Print unsorted array and sort results? (y/n)");
+            if(scanner.next().trim().equals("y")) {
+                printArrays = true;
+            }
+        }
 
         // Get input type and generate array
         // Get input type
@@ -86,17 +96,17 @@ class Main
                 break;
         }
 
+        // Print unsorted array
+        if(printArrays) {
+            System.out.print("Input: ");
+            printArray(unsortedArray);
+        }
+
         // Get which algorithms to run
         runAlgorithms(scanner);
 
         // Close Scanner
         scanner.close();
-        
-        // Print numbers generated and sort Results
-        // Only print if input size <= 10
-        if(inputSize <= 20) {
-            printSorts();
-        }
 
         // Sort algorithms by runtime
         sortRuntime();
@@ -366,8 +376,11 @@ class Main
         // Loop through the array
         for(int i = 0; i < array.length; i++) {
             // Print array element
-            System.out.print(" " + array[i] + " ");
+            System.out.print(array[i] + " ");
         }
+        
+        // Print newline
+        System.out.println();
     }
 
     /**
@@ -458,6 +471,13 @@ class Main
             algo.runtime = Duration.between(start, Instant.now()).toNanos();
         } catch(StackOverflowError e) {
             System.out.println("Could not run " + algo.name + ". Array size is too long.");
+            return;
+        }
+
+        // Print sort result
+        if(printArrays) {
+            System.out.print(algo.name + ": ");
+            printArray(sortedArray);
         }
     }
 
