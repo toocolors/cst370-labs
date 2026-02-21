@@ -127,16 +127,16 @@ class Main
     // ***************************************************************
 
     /**
-     * Sorts sortedArray using Bubble Sort
+     * Sorts sortedArray using Bubble Sort.
      */
     private static void bubbleSort() {
-        boolean sorted;
-        do {
+        boolean sorted = false;
+        while(!sorted) {
             // Reset sorted
             sorted = true;
 
             // Loop through array
-            for(int i = 1; i < inputSize - 1; i++) {
+            for(int i = 1; i < inputSize; i++) {
                 if(sortedArray[i - 1] > sortedArray[i]) {
                     // Update sorted
                     sorted = false;
@@ -147,7 +147,7 @@ class Main
                     sortedArray[i - 1] = temp;
                 }
             }
-        } while(!sorted);
+        }
     }
 
     /**
@@ -256,7 +256,7 @@ class Main
      * Sorts the sortedArray using the Selection Sort algorithm.
      */
     private static void selectionSort() {
-        for(int i = 0; i < sortedArray.length; i++) {
+        for(int i = 0; i < inputSize; i++) {
             // Get smallest element in array
             int minIndex = i;
             for(int j = i + 1; j < sortedArray.length; j++) {
