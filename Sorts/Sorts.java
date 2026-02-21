@@ -45,6 +45,8 @@ class Main
     static Algorithm[] algorithms = {
         new Algorithm("Bubble Sort", () -> bubbleSort()),
         new Algorithm("Insertion Sort", () -> insertionSort()),
+        new Algorithm("Radix Sort (Check Each))", () -> radixSortCheck()),
+        // new Algorithm("Radix Sort (Pre-Digit)", () -> radixSortPreDigit()),
         new Algorithm("Selection Sort", () -> selectionSort()),
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
         new Algorithm("Quick Sort (Median of Three)", () -> medianOfThree(0, inputSize - 1))
@@ -250,6 +252,63 @@ class Main
         // Divide array and call self
         medianOfThree(start, j - 1);
         medianOfThree(j + 1, end);
+    }
+
+    /**
+     * Sorts sortedArray using Radix Sort.
+     * Loops an extra time instead of getting digit count.
+     */
+    private static void radixSortCheck() {
+        boolean moreDigits;
+        int digit = 1;
+        int[] frequency;
+        int[] tempArray;
+
+        do {
+            // Reset moreDigits
+            moreDigits = false;
+
+            // Initialize frequency and tempArray
+            frequency = new int[10];
+            tempArray = new int[inputSize];
+
+            // Get Frequency
+            for(int i = 0; i < inputSize; i++) {
+                // Get nth digit of number
+                int num = sortedArray[i] / (1 * digit);
+
+                // Check if there is another digit
+                if(num > 9) {
+                    moreDigits = true;
+                }
+
+                // Update frequency of digit
+                frequency[num % 10]++;
+            }
+
+            // Get Distributions
+            for(int i = 1; i < frequency.length; i++) {
+                frequency[i] += frequency[i - 1];
+            }
+
+            // Sort nth Digit
+            for(int i = inputSize - 1; i >= 0; i--) {
+                // Get mod of nth digit of number
+                int num = sortedArray[i] / (1 * digit) % 10;
+
+                // Place number in tempArray
+                tempArray[frequency[num] - 1] = sortedArray[i];
+
+                // Decrement distribution of number
+                frequency[num]--;
+            }
+
+            // Set sorted array to tempArray
+            sortedArray = tempArray;
+
+            // Increment digit
+            digit *= 10;
+        } while(moreDigits);
     }
 
     /**
