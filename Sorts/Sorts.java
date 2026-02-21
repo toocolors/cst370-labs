@@ -125,9 +125,12 @@ class Main
             printSorts();
         }
 
+        // Sort algorithms by runtime
+        sortRuntime();
+
         // Print Times
         System.out.println("==================== Execution Result ====================");
-        // ArrayList<Integer> ranks = printTimes();
+        printTimes();
         System.out.println("==========================================================");
         
         // Print Ranking
@@ -376,7 +379,7 @@ class Main
         // For each algorithm, ask if it wil be run
         for(int i = 0; i < algorithms.length; i++) {
             System.out.println("Run " + algorithms[i].name + " (y/n)?");
-            if(scanner.nextLine().trim().equals("y")) {
+            if(scanner.next().trim().equals("y")) {
                 algorithms[i].run = true;
             }
         }
@@ -455,43 +458,19 @@ class Main
     /**
      * Prints the times of the different sorts, sorted by time.
      */
-    private static ArrayList<Integer> printTimes() {
-        // Create ArrayList
-        ArrayList<Integer> ranks = new ArrayList<Integer>(3);
-        
-        // Check if all times have been processed or are 0
-        while(quickTime != -1.0 || medianTime != -1.0 || insertionTime != -1.0 || selectionTime != -1.0) {
-            // Get max
-            double max = Math.max(quickTime, medianTime);
-            max = Math.max(max, insertionTime);
-            max = Math.max(max, selectionTime);
-
-            // Print sort method and zero time variable
-            if(max == quickTime) {
-                quickTime = -1.0;
-                System.out.print("Quick sort: ");
-                ranks.add(0, 1);
-            } else if(max == medianTime) {
-                medianTime = -1.0;
-                System.out.print("Quick sort (Median of Three): ");
-                ranks.add(0, 2);
-            } else if(max == insertionTime){
-                insertionTime = -1.0;
-                System.out.print("Insertion sort: ");
-                ranks.add(0, 3);
-            } else {
-                selectionTime = -1.0;
-                System.out.print("Selection sort: ");
-                ranks.add(0, 4);
+    private static void printTimes() {
+        for(int i = algorithms.length - 1; i >= 0; i--) {
+            // Check if time is -1 (Then this and next algorithms where not ran)
+            if(algorithms[i].runtime == -1) {
+                break;
             }
 
-            // Print time
-            double millis = max / 1000000.0;
-            System.out.println(millis + " milliseconds");
-        }
+            // Print sort method
+            System.out.print(algorithms[i].name + ": ");
 
-        // Return Ranks
-        return ranks;
+            // Print time
+            System.out.println(algorithms[i].runtime / 1000000.0 + " milliseconds");
+        }
     }
 
     /**
@@ -499,6 +478,21 @@ class Main
      */
     private static void resetSorted() {
         sortedArray = unsortedArray.clone();
+    }
+
+    /**
+     * Sorts algorithms array based on runtime using insertion sort.
+     */
+    private static void sortRuntime() {
+        for(int i = 1; i < algorithms.length; i++) {
+            Algorithm key = algorithms[i];
+            int j = i - 1;
+            while(j >= 0 && algorithms[j].runtime > key.runtime) {
+                algorithms[j + 1] = algorithms[j];
+                j--;
+            }
+            algorithms[j + 1] = key;
+        }
     }
 }
 
