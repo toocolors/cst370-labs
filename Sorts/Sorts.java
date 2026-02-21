@@ -63,26 +63,19 @@ class Main
         System.out.println("Enter input size: ");
         inputSize = scanner.nextInt();
 
-        // Get Input Type
+        // Get input type and generate array
+        // Get input type
         System.out.println("========== Select Option for Input Numbers ==========");
         System.out.println("1. Ascending Order");
         System.out.println("2. Descending Order");
         System.out.println("3. Random");
         System.out.println("Choose option:");
-        int inputType = scanner.nextInt();
-
-        // Get which algorithms to run
-        getAlgoBooleans(scanner);
-
-        // Close Scanner
-        scanner.close();
-
         // Generate Array
         // 1 = Ascending Order
         // 2 = Descending Order
         // 3 = Random Order
         unsortedArray = new int[inputSize];
-        switch(inputType) {
+        switch(scanner.nextInt()) {
             case 1:
                 generateAscending();
                 break;
@@ -94,6 +87,12 @@ class Main
                 generateRandom();
                 break;
         }
+
+        // Get which algorithms to run
+        getAlgoBooleans(scanner);
+
+        // Close Scanner
+        scanner.close();
 
         // Initialize start variable
         Instant start;
