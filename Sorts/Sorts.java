@@ -120,74 +120,9 @@ class Main
         System.out.println("==========================================================");
     }
 
-    /**
-     * Fills each array with ascending numbers from 1-inputSize
-     */
-    private static void generateAscending() {
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = i + 1;
-        }
-    }
-
-    /**
-     * Fills each array with descending numbers from inputSize-1
-     */
-    private static void generateDescending() {
-        int num = inputSize;
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = num;
-            num--;
-        }
-    }
-
-    /**
-     * Fills each array with random numbers from 1-inputSize*10
-     */
-    private static void generateRandom() {
-        Random r = new Random();
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = r.nextInt(inputSize*10 + 1);
-        }
-    }
-
-    /**
-     * Asks the user which algorithms they would like to run and updated the do___ booleans.
-     */
-    private static void getAlgoBooleans(Scanner scanner) {
-        // Ask if all algorithms will be ran
-        System.out.println("Run all sorting algorithms (y/n)?");
-        if(scanner.next().trim().equals("y")) {
-            doInsertion = true;
-            doMedian = true;
-            doSelection = true;
-            doQuick = true;
-            return;
-        }
-
-        // Get Insertion Sort Boolean
-        System.out.println("Run insertion sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doInsertion = true;
-        }
-
-        // Get Selection Sort Boolean
-        System.out.println("Run selection sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doSelection = true;
-        }
-
-        // Get Quick Sort Boolean
-        System.out.println("Run quick sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doQuick = true;
-        }
-
-        // Get Median of Three Boolean
-        System.out.println("Run quick sort with Median of Three (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doMedian = true;
-        }
-    }
+    // ***************************************************************
+    // ALGORITHM FUNCTIONS
+    // ***************************************************************
 
     /**
      * Sorts sortedArray using the Insertion Sort algorithm.
@@ -289,6 +224,162 @@ class Main
         // Divide array and call self
         medianOfThree(start, j - 1);
         medianOfThree(j + 1, end);
+    }
+
+    /**
+     * Sorts the sortedArray using the Selection Sort algorithm.
+     */
+    private static void selectionSort() {
+        for(int i = 0; i < sortedArray.length; i++) {
+            // Get smallest element in array
+            int minIndex = i;
+            for(int j = i + 1; j < sortedArray.length; j++) {
+                if(sortedArray[j] < sortedArray[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            // Swap elements
+            int temp = unsortedArray[i];
+            sortedArray[i] = sortedArray[minIndex];
+            sortedArray[minIndex] = temp;
+        }
+    }
+
+    /**
+     * Sorts the sortedArray using the Quick Sort algorithm.
+     */
+    private static void quickSort(int start, int end) {
+        //System.out.println("\nQuick Sort from " + start + " to " + end);
+        //printSubArray(sortedArray, start, end);
+        // Check if array partition is empty or only one element
+        if(end - start <= 0) {
+            return;
+        }
+        
+        // Set pivot (index of pivot)
+        int pivot = start;
+        //System.out.println("Pivot: " + sortedArray[pivot]);
+
+        // initialize i and j
+        int i = start;
+        int j = end;
+
+        // Increment i until i reaches the end of partition or until i and j meet
+        while(i <= end && i < j) {
+            i++;
+            //System.out.println("i -> [" + i + "] -> " + sortedArray[i]);
+            // Check if element i is greater than or equal to the pivot.
+            if(sortedArray[i] >= sortedArray[pivot]) {
+                // Decrement j
+                //System.out.println("i is greater than pivot");
+                while(j >= start && j > i) {
+                    //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
+                    // Check if element j is less than or equal to the pivot.
+                    if(sortedArray[j] <= sortedArray[pivot]) {
+                        //System.out.println("j is smaller than pivot\nSwapping i and j");
+                        // Swap element i and j
+                        int temp = sortedArray[j];
+                        sortedArray[j] = sortedArray[i];
+                        sortedArray[i] = temp;
+                        break;
+                    }
+                    j--;
+                }
+            }
+        }
+        //System.out.println("i and j have met");
+
+        // Decrement j until it reaches an element smaller than the pivot or it reaches the pivot 
+        while(sortedArray[j] >= sortedArray[pivot] && j > pivot) {
+            //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
+            j--;
+        }
+
+        // Swap the pivot and element j
+        //System.out.println("Swapping j and pivot");
+        int temp = sortedArray[pivot];
+        sortedArray[pivot] = sortedArray[j];
+        sortedArray[j] = temp;
+
+        //printSubArray(sortedArray, start, end);
+
+        // Divide array and call self
+        quickSort(start, j - 1);
+        quickSort(j + 1, end);
+    }
+
+    // ***************************************************************
+    // HELPER FUNCTIONS
+    // ***************************************************************
+
+    /**
+     * Fills each array with ascending numbers from 1-inputSize
+     */
+    private static void generateAscending() {
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = i + 1;
+        }
+    }
+
+    /**
+     * Fills each array with descending numbers from inputSize-1
+     */
+    private static void generateDescending() {
+        int num = inputSize;
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = num;
+            num--;
+        }
+    }
+
+    /**
+     * Fills each array with random numbers from 1-inputSize*10
+     */
+    private static void generateRandom() {
+        Random r = new Random();
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = r.nextInt(inputSize*10 + 1);
+        }
+    }
+
+    /**
+     * Asks the user which algorithms they would like to run and updated the do___ booleans.
+     */
+    private static void getAlgoBooleans(Scanner scanner) {
+        // Ask if all algorithms will be ran
+        System.out.println("Run all sorting algorithms (y/n)?");
+        if(scanner.next().trim().equals("y")) {
+            doInsertion = true;
+            doMedian = true;
+            doSelection = true;
+            doQuick = true;
+            return;
+        }
+
+        // Get Insertion Sort Boolean
+        System.out.println("Run insertion sort (y/n)? ");
+        if(scanner.next().equals("y")) {
+            doInsertion = true;
+        }
+
+        // Get Selection Sort Boolean
+        System.out.println("Run selection sort (y/n)? ");
+        if(scanner.next().equals("y")) {
+            doSelection = true;
+        }
+
+        // Get Quick Sort Boolean
+        System.out.println("Run quick sort (y/n)? ");
+        if(scanner.next().equals("y")) {
+            doQuick = true;
+        }
+
+        // Get Median of Three Boolean
+        System.out.println("Run quick sort with Median of Three (y/n)? ");
+        if(scanner.next().equals("y")) {
+            doMedian = true;
+        }
     }
 
     /**
@@ -408,89 +499,6 @@ class Main
      */
     private static void resetSorted() {
         sortedArray = unsortedArray.clone();
-    }
-
-    /**
-     * Sorts the sortedArray using the Selection Sort algorithm.
-     */
-    private static void selectionSort() {
-        for(int i = 0; i < sortedArray.length; i++) {
-            // Get smallest element in array
-            int minIndex = i;
-            for(int j = i + 1; j < sortedArray.length; j++) {
-                if(sortedArray[j] < sortedArray[minIndex]) {
-                    minIndex = j;
-                }
-            }
-
-            // Swap elements
-            int temp = unsortedArray[i];
-            sortedArray[i] = sortedArray[minIndex];
-            sortedArray[minIndex] = temp;
-        }
-    }
-
-    /**
-     * Sorts the sortedArray using the Quick Sort algorithm.
-     */
-    private static void quickSort(int start, int end) {
-        //System.out.println("\nQuick Sort from " + start + " to " + end);
-        //printSubArray(sortedArray, start, end);
-        // Check if array partition is empty or only one element
-        if(end - start <= 0) {
-            return;
-        }
-        
-        // Set pivot (index of pivot)
-        int pivot = start;
-        //System.out.println("Pivot: " + sortedArray[pivot]);
-
-        // initialize i and j
-        int i = start;
-        int j = end;
-
-        // Increment i until i reaches the end of partition or until i and j meet
-        while(i <= end && i < j) {
-            i++;
-            //System.out.println("i -> [" + i + "] -> " + sortedArray[i]);
-            // Check if element i is greater than or equal to the pivot.
-            if(sortedArray[i] >= sortedArray[pivot]) {
-                // Decrement j
-                //System.out.println("i is greater than pivot");
-                while(j >= start && j > i) {
-                    //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
-                    // Check if element j is less than or equal to the pivot.
-                    if(sortedArray[j] <= sortedArray[pivot]) {
-                        //System.out.println("j is smaller than pivot\nSwapping i and j");
-                        // Swap element i and j
-                        int temp = sortedArray[j];
-                        sortedArray[j] = sortedArray[i];
-                        sortedArray[i] = temp;
-                        break;
-                    }
-                    j--;
-                }
-            }
-        }
-        //System.out.println("i and j have met");
-
-        // Decrement j until it reaches an element smaller than the pivot or it reaches the pivot 
-        while(sortedArray[j] >= sortedArray[pivot] && j > pivot) {
-            //System.out.println("j -> [" + j + "] -> " + sortedArray[j]);
-            j--;
-        }
-
-        // Swap the pivot and element j
-        //System.out.println("Swapping j and pivot");
-        int temp = sortedArray[pivot];
-        sortedArray[pivot] = sortedArray[j];
-        sortedArray[j] = temp;
-
-        //printSubArray(sortedArray, start, end);
-
-        // Divide array and call self
-        quickSort(start, j - 1);
-        quickSort(j + 1, end);
     }
 }
 
