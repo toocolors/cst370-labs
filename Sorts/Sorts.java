@@ -46,7 +46,7 @@ class Main
         new Algorithm("Bubble Sort", () -> bubbleSort()),
         new Algorithm("Insertion Sort", () -> insertionSort()),
         new Algorithm("Radix Sort (Check Each))", () -> radixSortCheck()),
-        // new Algorithm("Radix Sort (Pre-Digit)", () -> radixSortPreDigit()),
+        new Algorithm("Radix Sort (Get Max)", () -> radixSortGetMax()),
         new Algorithm("Selection Sort", () -> selectionSort()),
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
         new Algorithm("Quick Sort (Median of Three)", () -> medianOfThree(0, inputSize - 1))
@@ -309,6 +309,63 @@ class Main
             // Increment digit
             digit *= 10;
         } while(moreDigits);
+    }
+
+    /**
+     * Sorts sortedArray using Radix Sort.
+     * Gets largest number and digit count before starting radix sort.
+     */
+    private static void radixSortGetMax() {
+        // Get largest number and digit count
+        int largest = unsortedArray[0];
+        int maxDigit = 1;
+        // Largest number
+        for(int i = 1; i < inputSize; i++) {
+            if(unsortedArray[i] > largest) {
+                largest = unsortedArray[i];
+            }
+        }
+        // Digit count
+        while(largest > 9) {
+            largest /= 10;
+            maxDigit *= 10;
+        }
+
+        // Start Radix Sort
+        int[] frequency;
+        int[] tempArray;
+
+        for(int d = 1; d <= maxDigit; d *= 10){
+            // Initialize frequency and tempArray
+            frequency = new int[10];
+            tempArray = new int[inputSize];
+
+            // Get Frequency
+            for(int i = 0; i < inputSize; i++) {
+                // Update frequency of digit
+                frequency[sortedArray[i] / (1 * d) % 10]++;
+            }
+
+            // Get Distributions
+            for(int i = 1; i < frequency.length; i++) {
+                frequency[i] += frequency[i - 1];
+            }
+
+            // Sort nth Digit
+            for(int i = inputSize - 1; i >= 0; i--) {
+                // Get mod of nth digit of number
+                int num = sortedArray[i] / (1 * d) % 10;
+
+                // Place number in tempArray
+                tempArray[frequency[num] - 1] = sortedArray[i];
+
+                // Decrement distribution of number
+                frequency[num]--;
+            }
+
+            // Set sorted array to tempArray
+            sortedArray = tempArray;
+        }
     }
 
     /**
