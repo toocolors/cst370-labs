@@ -266,7 +266,7 @@ class Main
             }
 
             // Swap elements
-            int temp = unsortedArray[i];
+            int temp = sortedArray[i];
             sortedArray[i] = sortedArray[minIndex];
             sortedArray[minIndex] = temp;
         }
