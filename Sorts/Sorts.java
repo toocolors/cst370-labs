@@ -41,6 +41,7 @@ class Main
     static int inputSize;
     // Arrays
     static Algorithm[] algorithms = {
+        new Algorithm("Bubble Sort", () -> bubbleSort()),
         new Algorithm("Insertion Sort", () -> insertionSort()),
         new Algorithm("Selection Sort", () -> selectionSort()),
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
@@ -114,6 +115,30 @@ class Main
     // ***************************************************************
     // ALGORITHM FUNCTIONS
     // ***************************************************************
+
+    /**
+     * Sorts sortedArray using Bubble Sort
+     */
+    private static void bubbleSort() {
+        boolean sorted;
+        do {
+            // Reset sorted
+            sorted = true;
+
+            // Loop through array
+            for(int i = 1; i < inputSize - 1; i++) {
+                if(sortedArray[i - 1] > sortedArray[i]) {
+                    // Update sorted
+                    sorted = false;
+
+                    // Swap elements
+                    int temp = sortedArray[i];
+                    sortedArray[i] = sortedArray[i - 1];
+                    sortedArray[i - 1] = temp;
+                }
+            }
+        } while(!sorted);
+    }
 
     /**
      * Sorts sortedArray using the Insertion Sort algorithm.
