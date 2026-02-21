@@ -22,15 +22,12 @@ interface AlgorithmFunction {
 class Algorithm {
     // Fields
     String name;
-    boolean run;
-    long runtime;
+    long runtime = -1;
     AlgorithmFunction sort;
 
     // Constructor
     public Algorithm(String name, AlgorithmFunction sort) {
         this.name = name;
-        run = false;
-        runtime = -1;
         this.sort = sort;
     }
 }
@@ -89,23 +86,10 @@ class Main
         }
 
         // Get which algorithms to run
-        getAlgoBooleans(scanner);
+        runAlgorithms(scanner);
 
         // Close Scanner
         scanner.close();
-
-        // Initialize start variable
-        Instant start;
-
-        // Run algorithms
-        for(int i = 0; i < algorithms.length; i++) {
-            if(algorithms[i].run) {
-                resetSorted();
-                start = Instant.now();
-                algorithms[i].sort.sort();
-                algorithms[i].runtime = Duration.between(start, Instant.now()).toNanos();
-            }
-        }
         
         // Print numbers generated and sort Results
         // Only print if input size <= 10
@@ -351,29 +335,6 @@ class Main
     }
 
     /**
-     * Asks the user which algorithms they would like to run and updated the do___ booleans.
-     */
-    private static void getAlgoBooleans(Scanner scanner) {
-        // Ask if all algorithms will be ran
-        System.out.println("Run all sorting algorithms (y/n)?");
-        if(scanner.next().trim().equals("y")) {
-            // Set all algorithm booleans to true
-            for(int i = 0; i < algorithms.length; i++) {
-                algorithms[i].run = true;
-            }
-            return;
-        }
-
-        // For each algorithm, ask if it wil be run
-        for(int i = 0; i < algorithms.length; i++) {
-            System.out.println("Run " + algorithms[i].name + " (y/n)?");
-            if(scanner.next().trim().equals("y")) {
-                algorithms[i].run = true;
-            }
-        }
-    }
-
-    /**
      * Prints the contents of an array (without brackets, with spaces in between elements)
      */
     private static void printArray(int[] array) {
@@ -450,6 +411,48 @@ class Main
      */
     private static void resetSorted() {
         sortedArray = unsortedArray.clone();
+    }
+
+    /**
+     * Runs the passed in algorithm
+     */
+    private static void runAlgorithm(Algorithm algo) {
+        // Reset sorted array
+        resetSorted();
+
+        // Initalize instant and get current time
+        Instant start;
+        start = Instant.now();
+
+        // Run algorithm
+        algo.sort.sort();
+
+        // Get end time
+        algo.runtime = Duration.between(start, Instant.now()).toNanos();
+
+    }
+
+    /**
+     * Asks the user which algorithms they would like to run and updated the do___ booleans.
+     */
+    private static void runAlgorithms(Scanner scanner) {
+        // Ask if all algorithms will be ran
+        System.out.println("Run all sorting algorithms (y/n)?");
+        if(scanner.next().trim().equals("y")) {
+            // Set all algorithm booleans to true
+            for(int i = 0; i < algorithms.length; i++) {
+                runAlgorithm(algorithms[i]);
+            }
+            return;
+        }
+
+        // For each algorithm, ask if it wil be run
+        for(int i = 0; i < algorithms.length; i++) {
+            System.out.println("Run " + algorithms[i].name + " (y/n)?");
+            if(scanner.next().trim().equals("y")) {
+                runAlgorithm(algorithms[i]);
+            }
+        }
     }
 
     /**
