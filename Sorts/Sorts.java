@@ -44,6 +44,12 @@ class Main
     // Integers
     static int inputSize;
     // Arrays
+    Algorithm[] algorithms = {
+        new Algorithm("Insertion Sort", () -> insertionSort()),
+        new Algorithm("Selection Sort", () -> selectionSort()),
+        new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
+        new Algorithm("Quick Sort (Median of Three)", () -> medianOfThree(0, inputSize - 1))
+    };
     static int[] unsortedArray;
     static int[] sortedArray;
     // Booleans
