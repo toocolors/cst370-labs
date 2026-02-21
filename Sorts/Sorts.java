@@ -44,7 +44,7 @@ class Main
     // Integers
     static int inputSize;
     // Arrays
-    Algorithm[] algorithms = {
+    static Algorithm[] algorithms = {
         new Algorithm("Insertion Sort", () -> insertionSort()),
         new Algorithm("Selection Sort", () -> selectionSort()),
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
@@ -109,36 +109,14 @@ class Main
         // Initialize start variable
         Instant start;
 
-        // Run Insertion Sort
-        if(doInsertion) {
-            resetSorted();
-            start = Instant.now();
-            insertionSort();
-            insertionTime = Duration.between(start, Instant.now()).toNanos();
-        }
-
-        // Run Selection Sort
-        if(doSelection) {
-            resetSorted();
-            start = Instant.now();
-            selectionSort();
-            selectionTime = Duration.between(start, Instant.now()).toNanos();
-        }
-
-        // Run Quick Sort
-        if(doQuick) {
-            resetSorted();
-            start = Instant.now();
-            quickSort(0, inputSize - 1);
-            quickTime = Duration.between(start, Instant.now()).toNanos();
-        }
-
-        // Run Quick Sort (Median of Three)
-        if(doMedian) {
-            resetSorted();
-            start = Instant.now();
-            medianOfThree(0, inputSize - 1);
-            medianTime = Duration.between(start, Instant.now()).toNanos();
+        // Run algorithms
+        for(int i = 0; i < algorithms.length; i++) {
+            if(algorithms[i].run) {
+                resetSorted();
+                start = Instant.now();
+                algorithms[i].sort.sort();
+                algorithms[i].runtime = Duration.between(start, Instant.now()).toNanos();
+            }
         }
         
         // Print numbers generated and sort Results
@@ -149,12 +127,12 @@ class Main
 
         // Print Times
         System.out.println("==================== Execution Result ====================");
-        ArrayList<Integer> ranks = printTimes();
+        // ArrayList<Integer> ranks = printTimes();
         System.out.println("==========================================================");
         
         // Print Ranking
         System.out.println("\n========================= Ranking ========================");
-        printRanking(ranks);
+        // printRanking(ranks);
         System.out.println("==========================================================");
     }
 
@@ -388,35 +366,19 @@ class Main
         // Ask if all algorithms will be ran
         System.out.println("Run all sorting algorithms (y/n)?");
         if(scanner.next().trim().equals("y")) {
-            doInsertion = true;
-            doMedian = true;
-            doSelection = true;
-            doQuick = true;
+            // Set all algorithm booleans to true
+            for(int i = 0; i < algorithms.length; i++) {
+                algorithms[i].run = true;
+            }
             return;
         }
 
-        // Get Insertion Sort Boolean
-        System.out.println("Run insertion sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doInsertion = true;
-        }
-
-        // Get Selection Sort Boolean
-        System.out.println("Run selection sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doSelection = true;
-        }
-
-        // Get Quick Sort Boolean
-        System.out.println("Run quick sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doQuick = true;
-        }
-
-        // Get Median of Three Boolean
-        System.out.println("Run quick sort with Median of Three (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doMedian = true;
+        // For each algorithm, ask if it wil be run
+        for(int i = 0; i < algorithms.length; i++) {
+            System.out.println("Run " + algorithms[i].name + " (y/n)?");
+            if(scanner.nextLine().trim().equals("y")) {
+                algorithms[i].run = true;
+            }
         }
     }
 
