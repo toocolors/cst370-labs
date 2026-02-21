@@ -135,7 +135,7 @@ class Main
         
         // Print Ranking
         System.out.println("\n========================= Ranking ========================");
-        // printRanking(ranks);
+        printRanking();
         System.out.println("==========================================================");
     }
 
@@ -397,40 +397,23 @@ class Main
     }
 
     /**
-     * Prints the ranking between the sorting algorithms
-     * The ranks ArrayList stores the ranks of each algorithm:
-     * 1 = Quick Sort
-     * 2 = Quick Sort (Median of Three)
-     * 3 = Insertion Sort
-     * 4 = Selection
+     * Prints the ranking between the sorting algorithms 
+     *  from shortest to longest runtime.
      */
-    private static void printRanking(ArrayList<Integer> ranks) {
-        for(int i = 0; i < ranks.size(); i++) {
-            // Print rank number
-            System.out.print("(" + (i + 1) + ") ");
-
-            // Print sort method and zero time variable
-            switch(ranks.get(i)) {
-                case 1:
-                    System.out.println("Quick sort");
-                    break;
-                case 2:
-                    System.out.println("Quick sort (Median of Three)");
-                    break;
-                case 3:
-                    System.out.println("Insertion sort");
-                    break;
-                case 4:
-                    System.out.println("Selection sort");
-                    break;
-                default:
-                    break;
+    private static void printRanking() {
+        for(int i = 0; i < algorithms.length; i++) {
+            // Check if algorithm was ran
+            if(algorithms[i].runtime == -1) {
+                continue;
             }
+
+            // Print rank number and algorithm name
+            System.out.println("(" + (i + 1) + ") " + algorithms[i].name);
         }
     }
 
     /**
-     * Prints the contents of each array
+     * Prints the contents of each array.
      */
     private static void printSorts() {
         // Unsorted Array
@@ -456,7 +439,8 @@ class Main
     }
 
     /**
-     * Prints the times of the different sorts, sorted by time.
+     * Prints the times of the different algorithms,
+     *  from longest to shortest runtime.
      */
     private static void printTimes() {
         for(int i = algorithms.length - 1; i >= 0; i--) {
