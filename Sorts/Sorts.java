@@ -388,6 +388,7 @@ class Main
      *  from shortest to longest runtime.
      */
     private static void printRanking() {
+        int rank = 1;
         for(int i = 0; i < algorithms.length; i++) {
             // Check if algorithm was ran
             if(algorithms[i].runtime == -1) {
@@ -395,7 +396,10 @@ class Main
             }
 
             // Print rank number and algorithm name
-            System.out.println("(" + (i + 1) + ") " + algorithms[i].name);
+            System.out.println("(" + (rank) + ") " + algorithms[i].name);
+
+            // Update rank
+            rank++;
         }
     }
 
