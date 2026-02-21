@@ -51,16 +51,6 @@ class Main
     };
     static int[] unsortedArray;
     static int[] sortedArray;
-    // Booleans
-    static boolean doInsertion;
-    static boolean doMedian;
-    static boolean doSelection;
-    static boolean doQuick;
-    // Doubles
-    static double insertionTime = -1.0;
-    static double medianTime = -1.0;
-    static double selectionTime = -1.0;
-    static double quickTime = -1.0;
 
     // ***************************************************************
     // MAIN FUNCTION
