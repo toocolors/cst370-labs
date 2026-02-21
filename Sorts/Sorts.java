@@ -1,33 +1,61 @@
 /*
  * Abstract: Generates an array based on user input, sorts the array using multiple algorithms, then displays the time spent on each sort algorithm.
  * Name: Noah deFer
- * Date: 2/17/2026
+ * Date: 2/21/2026
  */
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+
+/**
+ * Used to store function for the associated algorithm.
+ */
+@FunctionalInterface
+interface AlgorithmFunction {
+    void sort();
+}
+
+/**
+ * Used to store algorithm information.
+ */
+class Algorithm {
+    // Fields
+    String name;
+    long runtime = -1;
+    AlgorithmFunction sort;
+
+    // Constructor
+    public Algorithm(String name, AlgorithmFunction sort) {
+        this.name = name;
+        this.sort = sort;
+    }
+}
  
 class Main 
 {
-    // Global Variables
-    // Arrays
-    static int[] unsortedArray;
-    static int[] sortedArray;
+    // ***************************************************************
+    // GLOBAL VARIABLES
+    // ***************************************************************
     // Booleans
-    static boolean doInsertion;
-    static boolean doMedian;
-    static boolean doSelection;
-    static boolean doQuick;
-    // Doubles
-    static double insertionTime = -1.0;
-    static double medianTime = -1.0;
-    static double selectionTime = -1.0;
-    static double quickTime = -1.0;
+    static boolean printArrays;
     // Integers
     static int inputSize;
+    // Arrays
+    static Algorithm[] algorithms = {
+        new Algorithm("Bubble Sort", () -> bubbleSort()),
+        new Algorithm("Insertion Sort", () -> insertionSort()),
+        new Algorithm("Radix Sort", () -> radixSort()),
+        new Algorithm("Selection Sort", () -> selectionSort()),
+        new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
+        new Algorithm("Quick Sort (Median of Three)", () -> medianOfThree(0, inputSize - 1))
+    };
+    static int[] unsortedArray;
+    static int[] sortedArray;
 
+    // ***************************************************************
+    // MAIN FUNCTION
+    // ***************************************************************
     public static void main(String[] args) {
         // Create Scanner Object
         Scanner scanner = new Scanner(System.in);
@@ -36,26 +64,27 @@ class Main
         System.out.println("Enter input size: ");
         inputSize = scanner.nextInt();
 
-        // Get Input Type
+        // Update printArrays if inputSize <= 20
+        if(inputSize <= 20) {
+            System.out.println("Print unsorted array and sort results? (y/n)");
+            if(scanner.next().trim().equals("y")) {
+                printArrays = true;
+            }
+        }
+
+        // Get input type and generate array
+        // Get input type
         System.out.println("========== Select Option for Input Numbers ==========");
         System.out.println("1. Ascending Order");
         System.out.println("2. Descending Order");
         System.out.println("3. Random");
         System.out.println("Choose option:");
-        int inputType = scanner.nextInt();
-
-        // Get which algorithms to run
-        getAlgoBooleans(scanner);
-
-        // Close Scanner
-        scanner.close();
-
         // Generate Array
         // 1 = Ascending Order
         // 2 = Descending Order
         // 3 = Random Order
         unsortedArray = new int[inputSize];
-        switch(inputType) {
+        switch(scanner.nextInt()) {
             case 1:
                 generateAscending();
                 break;
@@ -68,124 +97,57 @@ class Main
                 break;
         }
 
-        // Initialize start variable
-        Instant start;
-
-        // Run Insertion Sort
-        if(doInsertion) {
-            resetSorted();
-            start = Instant.now();
-            insertionSort();
-            insertionTime = Duration.between(start, Instant.now()).toNanos();
+        // Print unsorted array
+        if(printArrays) {
+            System.out.print("Input: ");
+            printArray(unsortedArray);
         }
 
-        // Run Selection Sort
-        if(doSelection) {
-            resetSorted();
-            start = Instant.now();
-            selectionSort();
-            selectionTime = Duration.between(start, Instant.now()).toNanos();
-        }
+        // Get which algorithms to run
+        runAlgorithms(scanner);
 
-        // Run Quick Sort
-        if(doQuick) {
-            resetSorted();
-            start = Instant.now();
-            quickSort(0, inputSize - 1);
-            quickTime = Duration.between(start, Instant.now()).toNanos();
-        }
+        // Close Scanner
+        scanner.close();
 
-        // Run Quick Sort (Median of Three)
-        if(doMedian) {
-            resetSorted();
-            start = Instant.now();
-            medianOfThree(0, inputSize - 1);
-            medianTime = Duration.between(start, Instant.now()).toNanos();
-        }
-        
-        // Print numbers generated and sort Results
-        // Only print if input size <= 10
-        if(inputSize <= 20) {
-            printSorts();
-        }
+        // Sort algorithms by runtime
+        sortRuntime();
 
         // Print Times
         System.out.println("==================== Execution Result ====================");
-        ArrayList<Integer> ranks = printTimes();
+        printTimes();
         System.out.println("==========================================================");
         
         // Print Ranking
         System.out.println("\n========================= Ranking ========================");
-        printRanking(ranks);
+        printRanking();
         System.out.println("==========================================================");
     }
 
-    /**
-     * Fills each array with ascending numbers from 1-inputSize
-     */
-    private static void generateAscending() {
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = i + 1;
-        }
-    }
+    // ***************************************************************
+    // ALGORITHM FUNCTIONS
+    // ***************************************************************
 
     /**
-     * Fills each array with descending numbers from inputSize-1
+     * Sorts sortedArray using Bubble Sort.
      */
-    private static void generateDescending() {
-        int num = inputSize;
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = num;
-            num--;
-        }
-    }
+    private static void bubbleSort() {
+        boolean sorted = false;
+        while(!sorted) {
+            // Reset sorted
+            sorted = true;
 
-    /**
-     * Fills each array with random numbers from 1-inputSize*10
-     */
-    private static void generateRandom() {
-        Random r = new Random();
-        for(int i = 0; i < inputSize; i++) {
-            unsortedArray[i] = r.nextInt(inputSize*10 + 1);
-        }
-    }
+            // Loop through array
+            for(int i = 1; i < inputSize; i++) {
+                if(sortedArray[i - 1] > sortedArray[i]) {
+                    // Update sorted
+                    sorted = false;
 
-    /**
-     * Asks the user which algorithms they would like to run and updated the do___ booleans.
-     */
-    private static void getAlgoBooleans(Scanner scanner) {
-        // Ask if all algorithms will be ran
-        System.out.println("Run all sorting algorithms (y/n)?");
-        if(scanner.next().trim().equals("y")) {
-            doInsertion = true;
-            doMedian = true;
-            doSelection = true;
-            doQuick = true;
-            return;
-        }
-
-        // Get Insertion Sort Boolean
-        System.out.println("Run insertion sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doInsertion = true;
-        }
-
-        // Get Selection Sort Boolean
-        System.out.println("Run selection sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doSelection = true;
-        }
-
-        // Get Quick Sort Boolean
-        System.out.println("Run quick sort (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doQuick = true;
-        }
-
-        // Get Median of Three Boolean
-        System.out.println("Run quick sort with Median of Three (y/n)? ");
-        if(scanner.next().equals("y")) {
-            doMedian = true;
+                    // Swap elements
+                    int temp = sortedArray[i];
+                    sortedArray[i] = sortedArray[i - 1];
+                    sortedArray[i - 1] = temp;
+                }
+            }
         }
     }
 
@@ -292,129 +254,66 @@ class Main
     }
 
     /**
-     * Prints the contents of an array (without brackets, with spaces in between elements)
+     * Sorts sortedArray using Radix Sort.
      */
-    private static void printArray(int[] array) {
-        // Loop through the array
-        for(int i = 0; i < array.length; i++) {
-            // Print array element
-            System.out.print(" " + array[i] + " ");
-        }
-    }
-
-    /**
-     * Prints the ranking between the sorting algorithms
-     * The ranks ArrayList stores the ranks of each algorithm:
-     * 1 = Quick Sort
-     * 2 = Quick Sort (Median of Three)
-     * 3 = Insertion Sort
-     * 4 = Selection
-     */
-    private static void printRanking(ArrayList<Integer> ranks) {
-        for(int i = 0; i < ranks.size(); i++) {
-            // Print rank number
-            System.out.print("(" + (i + 1) + ") ");
-
-            // Print sort method and zero time variable
-            switch(ranks.get(i)) {
-                case 1:
-                    System.out.println("Quick sort");
-                    break;
-                case 2:
-                    System.out.println("Quick sort (Median of Three)");
-                    break;
-                case 3:
-                    System.out.println("Insertion sort");
-                    break;
-                case 4:
-                    System.out.println("Selection sort");
-                    break;
-                default:
-                    break;
+    private static void radixSort() {
+        // Get largest number and digit count
+        int largest = unsortedArray[0];
+        int maxDigit = 1;
+        // Largest number
+        for(int i = 1; i < inputSize; i++) {
+            if(unsortedArray[i] > largest) {
+                largest = unsortedArray[i];
             }
         }
-    }
-
-    /**
-     * Prints the contents of each array
-     */
-    private static void printSorts() {
-        // Unsorted Array
-        System.out.print("Numbers generated: ");
-        printArray(unsortedArray);
-        System.out.println();
-
-        // Sorted Array
-        System.out.print("Sort results: ");
-        printArray(sortedArray);
-        System.out.println();
-    }
-
-    /**
-     * Prints a subarray of arr from start to end
-     * Used for debugging.
-     */
-    private static void printSubArray(int[] arr, int start, int end) {
-        for(int i = start; i <= end; i++) {
-            System.out.print(" " + arr[i] + " ");
+        // Digit count
+        while(largest > 9) {
+            largest /= 10;
+            maxDigit *= 10;
         }
-        System.out.println();
-    }
 
-    /**
-     * Prints the times of the different sorts, sorted by time.
-     */
-    private static ArrayList<Integer> printTimes() {
-        // Create ArrayList
-        ArrayList<Integer> ranks = new ArrayList<Integer>(3);
-        
-        // Check if all times have been processed or are 0
-        while(quickTime != -1.0 || medianTime != -1.0 || insertionTime != -1.0 || selectionTime != -1.0) {
-            // Get max
-            double max = Math.max(quickTime, medianTime);
-            max = Math.max(max, insertionTime);
-            max = Math.max(max, selectionTime);
+        // Start Radix Sort
+        int[] frequency;
+        int[] tempArray;
 
-            // Print sort method and zero time variable
-            if(max == quickTime) {
-                quickTime = -1.0;
-                System.out.print("Quick sort: ");
-                ranks.add(0, 1);
-            } else if(max == medianTime) {
-                medianTime = -1.0;
-                System.out.print("Quick sort (Median of Three): ");
-                ranks.add(0, 2);
-            } else if(max == insertionTime){
-                insertionTime = -1.0;
-                System.out.print("Insertion sort: ");
-                ranks.add(0, 3);
-            } else {
-                selectionTime = -1.0;
-                System.out.print("Selection sort: ");
-                ranks.add(0, 4);
+        for(int d = 1; d <= maxDigit; d *= 10){
+            // Initialize frequency and tempArray
+            frequency = new int[10];
+            tempArray = new int[inputSize];
+
+            // Get Frequency
+            for(int i = 0; i < inputSize; i++) {
+                // Update frequency of digit
+                frequency[sortedArray[i] / (1 * d) % 10]++;
             }
 
-            // Print time
-            double millis = max / 1000000.0;
-            System.out.println(millis + " milliseconds");
+            // Get Distributions
+            for(int i = 1; i < frequency.length; i++) {
+                frequency[i] += frequency[i - 1];
+            }
+
+            // Sort nth Digit
+            for(int i = inputSize - 1; i >= 0; i--) {
+                // Get mod of nth digit of number
+                int num = sortedArray[i] / (1 * d) % 10;
+
+                // Place number in tempArray
+                tempArray[frequency[num] - 1] = sortedArray[i];
+
+                // Decrement distribution of number
+                frequency[num]--;
+            }
+
+            // Set sorted array to tempArray
+            sortedArray = tempArray;
         }
-
-        // Return Ranks
-        return ranks;
-    }
-
-    /**
-     * Resets the sorted array back to being unsorted.
-     */
-    private static void resetSorted() {
-        sortedArray = unsortedArray.clone();
     }
 
     /**
      * Sorts the sortedArray using the Selection Sort algorithm.
      */
     private static void selectionSort() {
-        for(int i = 0; i < sortedArray.length; i++) {
+        for(int i = 0; i < inputSize; i++) {
             // Get smallest element in array
             int minIndex = i;
             for(int j = i + 1; j < sortedArray.length; j++) {
@@ -424,7 +323,7 @@ class Main
             }
 
             // Swap elements
-            int temp = unsortedArray[i];
+            int temp = sortedArray[i];
             sortedArray[i] = sortedArray[minIndex];
             sortedArray[minIndex] = temp;
         }
@@ -491,6 +390,179 @@ class Main
         // Divide array and call self
         quickSort(start, j - 1);
         quickSort(j + 1, end);
+    }
+
+    // ***************************************************************
+    // HELPER FUNCTIONS
+    // ***************************************************************
+
+    /**
+     * Fills each array with ascending numbers from 1-inputSize
+     */
+    private static void generateAscending() {
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = i + 1;
+        }
+    }
+
+    /**
+     * Fills each array with descending numbers from inputSize-1
+     */
+    private static void generateDescending() {
+        int num = inputSize;
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = num;
+            num--;
+        }
+    }
+
+    /**
+     * Fills each array with random numbers from 1-inputSize*10
+     */
+    private static void generateRandom() {
+        Random r = new Random();
+        for(int i = 0; i < inputSize; i++) {
+            unsortedArray[i] = r.nextInt(inputSize*10 + 1);
+        }
+    }
+
+    /**
+     * Prints the contents of an array (without brackets, with spaces in between elements)
+     */
+    private static void printArray(int[] array) {
+        // Loop through the array
+        for(int i = 0; i < array.length; i++) {
+            // Print array element
+            System.out.print(array[i] + " ");
+        }
+        
+        // Print newline
+        System.out.println();
+    }
+
+    /**
+     * Prints the ranking between the sorting algorithms 
+     *  from shortest to longest runtime.
+     */
+    private static void printRanking() {
+        int rank = 1;
+        for(int i = 0; i < algorithms.length; i++) {
+            // Check if algorithm was ran
+            if(algorithms[i].runtime == -1) {
+                continue;
+            }
+
+            // Print rank number and algorithm name
+            System.out.println("(" + (rank) + ") " + algorithms[i].name);
+
+            // Update rank
+            rank++;
+        }
+    }
+
+    /**
+     * Prints a subarray of arr from start to end
+     * Used for debugging.
+     */
+    private static void printSubArray(int[] arr, int start, int end) {
+        for(int i = start; i <= end; i++) {
+            System.out.print(" " + arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    /**
+     * Prints the times of the different algorithms,
+     *  from longest to shortest runtime.
+     */
+    private static void printTimes() {
+        for(int i = algorithms.length - 1; i >= 0; i--) {
+            // Check if time is -1 (Then this and next algorithms where not ran)
+            if(algorithms[i].runtime == -1) {
+                break;
+            }
+
+            // Print sort method
+            System.out.print(algorithms[i].name + ": ");
+
+            // Print time
+            System.out.println(algorithms[i].runtime / 1000000.0 + " milliseconds");
+        }
+    }
+
+    /**
+     * Resets the sorted array back to being unsorted.
+     */
+    private static void resetSorted() {
+        sortedArray = unsortedArray.clone();
+    }
+
+    /**
+     * Runs the passed in algorithm
+     */
+    private static void runAlgorithm(Algorithm algo) {
+        // Try to run algorithm
+        try {
+            // Reset sorted array
+            resetSorted();
+
+            // Initalize instant and get current time
+            Instant start;
+            start = Instant.now();
+
+            // Run algorithm
+            algo.sort.sort();
+
+            // Get end time
+            algo.runtime = Duration.between(start, Instant.now()).toNanos();
+        } catch(StackOverflowError e) {
+            System.out.println("Could not run " + algo.name + ". Array size is too long.");
+            return;
+        }
+
+        // Print sort result
+        if(printArrays) {
+            System.out.print(algo.name + ": ");
+            printArray(sortedArray);
+        }
+    }
+
+    /**
+     * Asks the user which algorithms they would like to run and updated the do___ booleans.
+     */
+    private static void runAlgorithms(Scanner scanner) {
+        // Ask if all algorithms will be ran
+        System.out.println("Run all sorting algorithms (y/n)?");
+        if(scanner.next().trim().equals("y")) {
+            // Set all algorithm booleans to true
+            for(int i = 0; i < algorithms.length; i++) {
+                runAlgorithm(algorithms[i]);
+            }
+            return;
+        }
+
+        // For each algorithm, ask if it wil be run
+        for(int i = 0; i < algorithms.length; i++) {
+            System.out.println("Run " + algorithms[i].name + " (y/n)?");
+            if(scanner.next().trim().equals("y")) {
+                runAlgorithm(algorithms[i]);
+            }
+        }
+    }
+
+    /**
+     * Sorts algorithms array based on runtime using insertion sort.
+     */
+    private static void sortRuntime() {
+        for(int i = 1; i < algorithms.length; i++) {
+            Algorithm key = algorithms[i];
+            int j = i - 1;
+            while(j >= 0 && algorithms[j].runtime > key.runtime) {
+                algorithms[j + 1] = algorithms[j];
+                j--;
+            }
+            algorithms[j + 1] = key;
+        }
     }
 }
 
