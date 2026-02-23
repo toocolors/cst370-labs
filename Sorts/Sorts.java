@@ -5,6 +5,7 @@
  */
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -42,6 +43,8 @@ class Main
     // Integers
     static int inputSize;
     // Arrays
+    static int[] unsortedArray;
+    static int[] sortedArray;
     static Algorithm[] algorithms = {
         new Algorithm("Bubble Sort", () -> bubbleSort()),
         new Algorithm("Insertion Sort", () -> insertionSort()),
@@ -51,8 +54,6 @@ class Main
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
         new Algorithm("Quick Sort (Median of Three)", () -> medianOfThree(0, inputSize - 1))
     };
-    static int[] unsortedArray;
-    static int[] sortedArray;
 
     // ***************************************************************
     // MAIN FUNCTION
@@ -313,8 +314,42 @@ class Main
     /**
      * Creates sorted array using Merge Sort.
      */
-    private static int[] mergseSort(int[] array) {
+    private static int[] mergeSort(int[] array) {
+        // Check if array has zero or one elements
+        if(array.length == 0 || array.length == 1) {
+            return array;
+        }
 
+        // Split array into two halves
+        int[] first = mergeSort(Arrays.copyOfRange(array, 0, array.length / 2));
+        int[] second = mergeSort(Arrays.copyOfRange(array, array.length / 2, array.length));
+
+        // Combine both halves
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        while(i < first.length || j < second.length) {
+            // Get smaller number between i and j
+            if(i < first.length && (j >= second.length || first[i] <= second[j])) {
+                // Insert elementirst[i] into array
+                array[index] = first[i];
+
+                // Increment i
+                i++;
+            } else if(j < second.length && (i >= first.length || second[j] <= first[i])) {
+                // Insert element first[i] into array
+                array[index] = second[j];
+
+                // Increment j
+                j++;
+            }
+
+            // Increment index
+            index++;
+        }
+
+        // Return array
+        return array;
     }
 
     /**
