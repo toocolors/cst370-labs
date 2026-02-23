@@ -45,6 +45,7 @@ class Main
     static Algorithm[] algorithms = {
         new Algorithm("Bubble Sort", () -> bubbleSort()),
         new Algorithm("Insertion Sort", () -> insertionSort()),
+        new Algorithm("Merge Sort", () -> sortedArray = mergeSort(unsortedArray.clone())),
         new Algorithm("Radix Sort", () -> radixSort()),
         new Algorithm("Selection Sort", () -> selectionSort()),
         new Algorithm("Quick Sort", () -> quickSort(0, inputSize - 1)),
@@ -307,6 +308,13 @@ class Main
             // Set sorted array to tempArray
             sortedArray = tempArray;
         }
+    }
+
+    /**
+     * Creates sorted array using Merge Sort.
+     */
+    private static int[] mergseSort(int[] array) {
+
     }
 
     /**
