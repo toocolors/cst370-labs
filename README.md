@@ -35,6 +35,7 @@ Currently supported sorting algorithms:
 1. Bubble Sort
 2. Insertion Sort
 3. Radix Sort
-4. Selection Sort
-5. Quick Sort
-6. Quick Sort (Median of Three)
+4. Merge Sort
+5. Selection Sort
+6. Quick Sort
+7. Quick Sort (Median of Three)
